@@ -1,0 +1,64 @@
+@use './_variables' as *;
+@use './_mixins' as *;
+
+.footer {
+  background: $navy;
+  border-top: 1px solid $border;
+  font-family: $font-body;
+}
+
+.copyright {
+  font-size: 0.82rem;
+  color: $text-muted;
+}
+
+.footerEmail {
+  font-size: 0.88rem;
+  color: rgba($white, 0.70);
+  text-decoration: none;
+  transition: color $transition-base;
+
+  &:hover {
+    color: $red-light;
+  }
+}
+
+.footerLink {
+  font-size: 0.83rem;
+  color: $text-muted;
+  text-decoration: none;
+  transition: color $transition-base;
+
+  &:hover {
+    color: $white;
+  }
+}
+
+.socials {
+  display: flex;
+  gap: 6px;
+}
+
+.socialIcon {
+  @include flex-center;
+  width: 32px;
+  height: 32px;
+  border-radius: $radius-circle;
+  background: rgba($white, 0.07);
+  border: 1px solid $border;
+  transition: all $transition-base;
+
+  img {
+    filter: brightness(0) invert(1);
+    opacity: 0.65;
+  }
+
+  &:hover {
+    background: $red;
+    border-color: $red;
+
+    img {
+      opacity: 1;
+    }
+  }
+}

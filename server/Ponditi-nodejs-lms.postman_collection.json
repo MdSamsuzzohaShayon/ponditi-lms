@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "338cf4b0-0b66-43a2-b072-73e2ca5447b9",
+		"_postman_id": "f6b70081-973d-4d79-ae8f-4ad01bb253eb",
 		"name": "Ponditi-nodejs-lms",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "14178218"
+		"_exporter_id": "29850207",
+		"_collection_link": "https://red-desert-312452.postman.co/workspace/13424716-14b0-49af-9190-fefff5c42016/collection/5768716-f6b70081-973d-4d79-ae8f-4ad01bb253eb?action=share&source=collection_link&creator=29850207"
 	},
 	"item": [
 		{
@@ -535,7 +536,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Md Shayon (Admin)\",\n    \"phone\": \"01785208590\",\n    \"email\": \"mdshayon0@gmail.com\",\n    \"password\": \"Test1234\",\n    \"age\": 25,\n    \"profession\": \"Admin\",\n    \"institution\": \"DIU\",\n    \"experience\": \"string\",\n    \"location\": \"Dhaka\",\n    \"degree\": \"BBA\",\n    \"major\": \"finance\",\n    \"passing_year\": 2020,\n    \"cgpa\": 3.04\n}",
+							"raw": "{\n    \"name\": \"Md Shayon (Admin)\",\n    \"phone\": \"27267212\",\n    \"email\": \"mdshayon0@gmail.com\",\n    \"password\": \"Test1234\",\n    \"age\": 25,\n    \"profession\": \"Admin\",\n    \"institution\": \"DIU\",\n    \"experience\": \"string\",\n    \"location\": \"Dhaka\",\n    \"degree\": \"BBA\",\n    \"major\": \"finance\",\n    \"passing_year\": 2020,\n    \"cgpa\": 3.04\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1268,7 +1269,8 @@
 		{
 			"key": "BACKEND_URL",
 			"value": "http://localhost:9000/api",
-			"type": "string"
+			"type": "string",
+			"disabled": true
 		},
 		{
 			"key": "BACKEND_URL",
@@ -1279,8 +1281,7 @@
 		{
 			"key": "BACKEND_URL",
 			"value": "https://ponditi-backend-api.onrender.com/api",
-			"type": "string",
-			"disabled": true
+			"type": "string"
 		},
 		{
 			"key": "BACKEND_URL",

@@ -1,0 +1,285 @@
+// ═════════════════════════════════════════════════════════
+//  GLOBAL MIXINS
+//  Use @use './mixins' as * to import
+// ═════════════════════════════════════════════════════════
+
+@use './_variables' as *;
+
+// ── Gradients ────────────────────────────────────────────
+@mixin redGradient {
+  background: linear-gradient(135deg, $red 0%, $red-dark 100%);
+}
+
+@mixin navyGradient {
+  background: linear-gradient(160deg, $navy 0%, $navy-mid 55%, #1a0a2e 100%);
+}
+
+@mixin radialRedGradient {
+  background: radial-gradient(circle, rgba(229, 25, 42, 0.18) 0%, transparent 70%);
+}
+
+@mixin radialNavyGradient {
+  background: radial-gradient(circle, rgba(28, 45, 107, 0.55) 0%, transparent 70%);
+}
+
+// ── Glassmorphism ────────────────────────────────────────
+@mixin glass($opacity: 0.07, $blur: 12px) {
+  background: rgba(255, 255, 255, $opacity);
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+  border: 1px solid $border;
+}
+
+@mixin glass-card {
+  @include glass(0.07, 12px);
+  border-radius: $radius-lg;
+  box-shadow: $shadow-lg;
+}
+
+// ── Typography ───────────────────────────────────────────
+@mixin font-display {
+  font-family: $font-display;
+  font-weight: $weight-black;
+}
+
+@mixin font-body {
+  font-family: $font-body;
+  font-weight: $weight-normal;
+}
+
+@mixin headline {
+  font-family: $font-display;
+  font-size: $font-xl;
+  font-weight: $weight-black;
+  line-height: 1.12;
+  color: $white;
+}
+
+@mixin subtext {
+  color: $text-muted;
+  font-size: $font-md;
+  line-height: 1.65;
+}
+
+// ── Buttons & Interactive ───────────────────────────────
+@mixin btn-base {
+  font-family: $font-body;
+  font-weight: $weight-semibold;
+  border: none;
+  transition: all $transition-base;
+  cursor: pointer;
+}
+
+@mixin btn-primary {
+  @include btn-base;
+  @include redGradient;
+  color: $white;
+  border-radius: $radius-sm;
+  padding: 11px 28px;
+  box-shadow: $shadow-md;
+
+  &:hover {
+    box-shadow: $shadow-hover;
+    transform: translateY(-2px);
+    color: $white;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+@mixin btn-outline {
+  @include btn-base;
+  color: $white;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  background: transparent;
+  border-radius: $radius-sm;
+  padding: 6px 18px;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.10);
+    border-color: $border-hover;
+    color: $white;
+  }
+}
+
+// ── Form Elements ───────────────────────────────────────
+@mixin input-base {
+  background: rgba(255, 255, 255, 0.07) !important;
+  border: 1.5px solid $border-light !important;
+  color: $white !important;
+  border-radius: $radius-sm !important;
+  font-size: $font-base !important;
+  font-family: $font-body !important;
+  transition: border-color $transition-base, box-shadow $transition-base !important;
+  padding: 10px 14px !important;
+  height: auto !important;
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.30) !important;
+  }
+
+  &:focus {
+    border-color: $red !important;
+    box-shadow: 0 0 0 3px rgba(229, 25, 42, 0.18) !important;
+    background: rgba(255, 255, 255, 0.10) !important;
+    outline: none !important;
+  }
+
+  option {
+    background: $navy-mid;
+    color: $white;
+  }
+}
+
+@mixin label {
+  display: block;
+  font-size: $font-xs;
+  font-weight: $weight-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: $text-muted;
+  margin-bottom: 6px;
+}
+
+// ── Badges & Chips ──────────────────────────────────────
+@mixin badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  @include glass(0.07, 8px);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: $font-xs;
+  font-weight: $weight-medium;
+  letter-spacing: 0.04em;
+  padding: 6px 14px;
+  border-radius: $radius-full;
+}
+
+@mixin trust-badge {
+  font-size: $font-xs;
+  font-weight: $weight-medium;
+  color: rgba(255, 255, 255, 0.70);
+  @include glass(0.07, 8px);
+  padding: 5px 13px;
+  border-radius: $radius-full;
+}
+
+// ── Grid & Layout ───────────────────────────────────────
+@mixin grid-overlay($color: rgba(255, 255, 255, 0.03), $size: 48px) {
+  background-image: 
+    linear-gradient($color 1px, transparent 1px),
+    linear-gradient(90deg, $color 1px, transparent 1px);
+  background-size: $size $size;
+}
+
+// ── Animations ──────────────────────────────────────────
+@mixin animation-fade-up($delay: 0s) {
+  animation: fadeUp $transition-slowest $delay ease both;
+}
+
+@mixin animation-float($duration: 6s) {
+  animation: floatY $duration ease-in-out infinite;
+}
+
+// Keyframes (to be included once in global scope)
+@mixin keyframes {
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes floatY {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+  }
+
+  @keyframes pulse {
+    from { transform: scale(1) translate(0, 0); }
+    to { transform: scale(1.12) translate(20px, 20px); }
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+// ── Media Queries ───────────────────────────────────────
+@mixin mobile {
+  @media (max-width: #{$breakpoint-md - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$breakpoint-md}) and (max-width: #{$breakpoint-lg - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$breakpoint-lg}) {
+    @content;
+  }
+}
+
+@mixin mobile-only {
+  @media (max-width: #{$breakpoint-md - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet-up {
+  @media (min-width: #{$breakpoint-md}) {
+    @content;
+  }
+}
+
+@mixin desktop-up {
+  @media (min-width: #{$breakpoint-lg}) {
+    @content;
+  }
+}
+
+// ── Positioning ─────────────────────────────────────────
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin absolute-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+// ── Flexbox Utilities ───────────────────────────────────
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

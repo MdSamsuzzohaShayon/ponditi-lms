@@ -1,44 +1,22 @@
-const fs = require('fs');
+const path = require('path');
 
-const { DB_USER, DB_PASSWORD, DB_NAME, DB_HOST, DB_PORT, DB_DIALECT, DB_STORAGE } = process.env;
+const { DB_STORAGE } = process.env;
+
 
 module.exports = {
-  // For development and test use sqlite
   development: {
-    username: DB_USER,
-    password: DB_PASSWORD,
-    database: DB_NAME,
-    port: DB_PORT,
-    storage: DB_STORAGE,
-    dialect: DB_DIALECT,
-    dialectOptions: {
-      bigNumberStrings: true
-    }
+    dialect: 'sqlite',
+    storage: DB_STORAGE || path.join(__dirname, '../database/ponditi-dev.sqlite'),
+    logging: console.log, // logs all SQL queries
   },
   test: {
-    username: DB_USER,
-    password: DB_PASSWORD,
-    database: DB_NAME,
-    port: DB_PORT,
-    storage: DB_STORAGE,
-    dialect: DB_DIALECT,
-    dialectOptions: {
-      bigNumberStrings: true
-    }
+    dialect: 'sqlite',
+    storage: DB_STORAGE || path.join(__dirname, '../database/ponditi-test.sqlite'),
+    logging: false,
   },
-  // Using mssql database in production
   production: {
-    username: DB_USER,
-    password: DB_PASSWORD,
-    database: DB_NAME,
-    host: DB_HOST,
-    port: DB_PORT,
-    dialect: DB_DIALECT,
-    dialectOptions: {
-      bigNumberStrings: true,
-      // ssl: {
-      //   ca: fs.readFileSync(__dirname + '/mysql-ca-main.crt')
-      // }
-    }
-  }
+    dialect: 'sqlite',
+    storage: DB_STORAGE || path.join(__dirname, '../database/ponditi-prod.sqlite'),
+    logging: false,
+  },
 };
