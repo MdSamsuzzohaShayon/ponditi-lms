@@ -1,0 +1,91 @@
+@use './_variables' as *;
+@use './_mixins' as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: $z-header;
+  background: rgba($navy, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid $border;
+  font-family: $font-body;
+}
+
+.logoWrap {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 40px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.nav {
+  gap: 1.5rem !important;
+}
+
+.navLink {
+  color: rgba($white, 0.80);
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: $weight-medium;
+  letter-spacing: 0.01em;
+  transition: color $transition-base;
+
+  &:hover {
+    color: $white;
+  }
+}
+
+.btnOutline {
+  @include btn-outline;
+}
+
+.btnPrimary {
+  @include btn-primary;
+  padding: 6px 20px;
+  font-size: 0.85rem;
+}
+
+// Mobile menu
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: $spacing-xs;
+  cursor: pointer;
+
+  span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: $white;
+    border-radius: 2px;
+    transition: all $transition-slow;
+  }
+}
+
+.mobileMenu {
+  border-top: 1px solid $border;
+  padding-top: 0.75rem;
+  animation: slideDown $transition-base ease;
+}
+
+.mobileLink {
+  display: block;
+  color: rgba($white, 0.80);
+  text-decoration: none;
+  padding: $spacing-sm 0;
+  font-size: 0.95rem;
+  font-family: $font-body;
+  border-bottom: 1px solid $border;
+
+  &:hover {
+    color: $white;
+  }
+}

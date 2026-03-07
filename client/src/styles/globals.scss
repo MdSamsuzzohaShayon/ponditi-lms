@@ -1,0 +1,52 @@
+// Import variables and mixins
+@use './_variables' as *;
+@use './_mixins' as *;
+
+
+// Import Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+
+// Include global keyframes
+@include keyframes;
+
+// Global styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $font-body;
+  overflow-x: hidden;
+}
+
+// Bootstrap overrides
+.form-select {
+  appearance: auto;
+}
+
+// Utility classes (optional, can be used across pages)
+.text-gradient-red {
+  background: $gradient-red;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass-effect {
+  @include glass;
+}
+
+.hover-lift {
+  transition: transform $transition-base;
+  
+  &:hover {
+    transform: translateY(-2px);
+  }
+}

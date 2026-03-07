@@ -1,5 +1,7 @@
 const { Model } = require('sequelize');
-const { types, scheduledClassStatus, tuitionmedums } = require('../config/keys');
+const {
+ types, scheduledClassStatus, tuitionmedums, gender 
+} = require('../config/keys');
 
 const { ONLINE } = types;
 const { PENDING } = scheduledClassStatus;
@@ -9,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
   class Customer extends Model {
     static associate(models) {
       /**
-       * @relation many to many
+       * ===========================================================================================
+       * MANY-TO-MANY RELATIONSHIP
        * This will create an extra table it self and hold user id and another table id that user is going to make relation with
        */
       Customer.belongsToMany(models.ClassType, { through: 'CustomerToClasstype' });
@@ -17,9 +20,10 @@ module.exports = (sequelize, DataTypes) => {
       Customer.belongsToMany(models.Tuitionm, { through: 'UniqueCustomerTuitionm' });
 
       /**
-       * @relation one to many
+       * ===========================================================================================
+       * ONE-TO-MANY RELATIONSHIP - MULTIPLE TIMES
+       * CustomerId as senderId (since we are making multiple relation between same two table) will be added as foreign key in ScheduledClass as Sender
        */
-      // CustomerId as senderId (since we are making multiple relation between same two table) will be added as foreign key in ScheduledClass as Sender
       Customer.hasMany(models.ScheduledClass, {
         foreignKey: 'senderId',
         as: 'Sender',
@@ -39,7 +43,43 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'reviewtakerId',
         as: 'Reviewtaker',
       });
-      // CustomerId will be added as foreign key in Notification
+      // Customer id as notroominvitorId will be added as foreign key in Notroom as Notroominvitor
+      Customer.hasMany(models.Notroom, {
+        foreignKey: 'notroominvitorId',
+        as: 'Notroominvitor',
+      });
+      // Customer id as invitereceiverId will be added as foreign key in Notroom as Invitereceiver
+      Customer.hasMany(models.Notroom, {
+        foreignKey: 'invitereceiverId',
+        as: 'Invitereceiver',
+      });
+
+      // // CustomerId as invitorId (since we are making multiple relation between same two table) will be added as foreign key in Chat as Chatinvitor
+      // Customer.hasMany(models.Chat, {
+      //   foreignKey: 'invitorId',
+      //   as: 'Chatinvitor',
+      // });
+      // // CustomerId as invitereceverId (since we are making multiple relation between same two table) will be added as foreign key in Chat as Inviterecever
+      // Customer.hasMany(models.Chat, {
+      //   foreignKey: 'invitereceverId',
+      //   as: 'Inviterecever',
+      // });
+      // // CustomerId as messagesenderId (since we are making multiple relation between same two table) will be added as foreign key in Message as Messagesender
+      // Customer.hasMany(models.Message, {
+      //   foreignKey: 'messagesenderId',
+      //   as: 'Messagesender',
+      // });
+      // // CustomerId as messagereceverId (since we are making multiple relation between same two table) will be added as foreign key in Message as Messagerecever
+      // Customer.hasMany(models.Message, {
+      //   foreignKey: 'messagereceverId',
+      //   as: 'Messagerecever',
+      // });
+
+      /**
+       * ===========================================================================================
+       * ONE-TO-MANY RELATIONSHIP - SINGLE TIMES
+       * CustomerId will be added as foreign key in Notification
+       */
       Customer.hasMany(models.Notification);
       // CustomerId will be added as foreign key in Education
       Customer.hasMany(models.Education);
@@ -89,6 +129,14 @@ module.exports = (sequelize, DataTypes) => {
 
       age: {
         type: DataTypes.INTEGER,
+      },
+      gender: {
+        type: new DataTypes.STRING(15),
+        allowNull: false,
+        defaultValue: gender.MALE,
+      },
+      id_proof: {
+        type: new DataTypes.STRING(100),
       },
 
       /**

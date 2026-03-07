@@ -7,12 +7,12 @@ const {
   acceptUser,
   verifyUser,
   resendOTP,
-  getAllUsersTemp,
   getAllUsers,
   login,
   sendOTP,
   getSingleUser,
   updateUser,
+  updatePersonalInfoUser,
   logout,
   notificationSeen,
   seedUsers,
@@ -22,32 +22,16 @@ const {
   resetPassword,
 } = require('../controllers/user.controller');
 const { changePassword } = require('../controllers/common.controller');
-const { ensureAuth, ensureAdmin } = require('../middleware/auth');
+const { ensureAuth, ensureAdmin, ensureTeacher } = require('../middleware/auth');
+// const { upload } = require('../config/s3-config');
+const upload = require('../config/multer-config');
 
-const { upload } = require('../config/s3-config');
-// if (process.env.NODE_ENV === 'development') {
-//   upload = require('../config/multer-config');
-// } else {
-//   upload = require('../config/s3-config')(upload);
-// }
-
-/**
- * @openapi
- * /api/user/sendotp:
- *   get:
- *     description: Official documentation of ponditi API
- *     responses:
- *       200:
- *         description: Just for testing perpuse that API is working or not
- *       406:
- *         description: Not acceptable
- */
-router.post('/sendotp', check('phone').notEmpty(), check('cc').notEmpty(), sendOTP);
 
 /**
  * @step 1 - regestration process
  * same step in case,  he has forgotten
  */
+router.post('/sendotp', check('phone').notEmpty(), check('cc').notEmpty(), sendOTP);
 router.put('/resendotp', check('phone').notEmpty(), resendOTP);
 
 /**
@@ -61,21 +45,11 @@ router.put('/verifyotp', check('otp').notEmpty(), check('phone').notEmpty(), ver
 router.put(
   '/register/:userId',
   check('name').notEmpty().isString().isLength({ min: 2 }),
-  // check('phone').notEmpty().isString(),
   check('role').notEmpty().isString(),
-  check('email').isEmail().notEmpty(),
-  // check('age').notEmpty(),
-  // check('profession').notEmpty().isString(),
-  // check('institution').notEmpty().isString(),
-  // check('subjects').notEmpty(), // In update section
-  // check('experience').notEmpty(),
+  // check('email').isEmail().notEmpty(),
+  check('gender').notEmpty().isString(),
   check('presentaddress').notEmpty().isString(),
-  // check('district').notEmpty().isString(),
-  // check('password').notEmpty().isLength({ min: 6 }),
-  // Relational
-  // check('classTypeId').notEmpty(), // In update section
-  // check('subjectId').notEmpty(), // In update section
-  registerUser
+  registerUser,
 );
 
 /**
@@ -87,6 +61,7 @@ router.put('/accept/:userId', ensureAdmin, acceptUser);
 router.put('/update/:id', ensureAuth, updateUser);
 router.put('/updateexam/:id', ensureAuth, check('examlist').isArray(), updateExamUser);
 router.put('/updateimage/:id', ensureAuth, upload.single('image'), updateImageUser);
+router.put('/updatepersonalinfo/:id', ensureTeacher, upload.single('nid_proof'), updatePersonalInfoUser);
 
 router.post('/login', check('phone').notEmpty().isString(), check('password').notEmpty().isLength({ min: 6 }), login);
 router.post('/logout', logout);
@@ -97,10 +72,10 @@ router.put('/changepassword', ensureAuth, check('current').notEmpty(), check('pa
 router.get('/all', ensureAdmin, getAllUsers);
 router.get('/single/:id', getSingleUser);
 
-// Notification seen
+// Notification seen // Something went wrong while updating database
 router.put('/notification/seen', ensureAuth, notificationSeen);
 // disable on production
-router.get('/temp/all', getAllUsersTemp);
+
 router.post('/seed', seedUsers);
 
 module.exports = router;

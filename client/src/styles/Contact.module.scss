@@ -1,0 +1,534 @@
+@use './_variables' as *;
+@use './_mixins' as *;
+
+// ══════════════════════════════════════════════
+//  HERO SECTION - EXACT same as MainPage
+// ══════════════════════════════════════════════
+.hero {
+  position: relative;
+  min-height: 100vh;
+  @include navyGradient;
+  overflow: hidden;
+  font-family: $font-body;
+  padding: 4rem 0 6rem !important;
+}
+
+// Decorative background elements - EXACT same
+.blob1,
+.blob2 {
+  position: absolute;
+  border-radius: $radius-circle;
+  pointer-events: none;
+}
+
+.blob1 {
+  width: 560px;
+  height: 560px;
+  top: -180px;
+  right: -120px;
+  @include radialRedGradient;
+  animation: pulse 8s ease-in-out infinite alternate;
+}
+
+.blob2 {
+  width: 400px;
+  height: 400px;
+  bottom: -100px;
+  left: -80px;
+  @include radialNavyGradient;
+  animation: pulse 10s ease-in-out infinite alternate-reverse;
+}
+
+.gridOverlay {
+  @include absolute-fill;
+  @include grid-overlay(rgba($white, 0.03), 48px);
+  pointer-events: none;
+}
+
+// ── Badge - EXACT same ──
+.badge {
+  @include badge;
+  margin-bottom: 1.25rem;
+  animation: fadeUp $transition-slowest ease both;
+}
+
+// ── Headline - EXACT same ──
+.headline {
+  @include headline;
+  margin-bottom: 1.1rem;
+  animation: fadeUp $transition-slowest 0.1s ease both;
+}
+
+.highlight {
+  position: relative;
+  color: $red-light;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 2px;
+    width: 100%;
+    height: 3px;
+    @include redGradient;
+    border-radius: 2px;
+  }
+}
+
+// ── Subtext - EXACT same ──
+.subtext {
+  @include subtext;
+  max-width: 440px;
+  margin-bottom: 2rem;
+  animation: fadeUp $transition-slowest 0.2s ease both;
+}
+
+// ── Contact Info Grid ──
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+  animation: fadeUp $transition-slowest 0.3s ease both;
+}
+
+.infoCard {
+  @include glass(0.05, 10px);
+  border-radius: $radius-md;
+  padding: 1.25rem;
+  display: flex;
+  gap: 1rem;
+  border: 1px solid rgba($white, 0.05);
+  transition: all $transition-base;
+
+  &:hover {
+    border-color: rgba($red, 0.3);
+    transform: translateY(-2px);
+  }
+}
+
+.infoIcon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.infoContent {
+  flex: 1;
+
+  h3 {
+    color: $white;
+    font-size: 1rem;
+    font-weight: $weight-bold;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: $text-muted;
+    font-size: $font-xs;
+    margin-bottom: 0.25rem;
+    line-height: 1.4;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// ── Social Section ──
+.socialSection {
+  animation: fadeUp $transition-slowest 0.4s ease both;
+
+  h4 {
+    color: $white;
+    font-size: 1rem;
+    font-weight: $weight-medium;
+    margin-bottom: 1rem;
+  }
+}
+
+.socialLinks {
+  display: flex;
+  gap: 1rem;
+}
+
+.socialLink {
+  @include flex-center;
+  width: 44px;
+  height: 44px;
+  border-radius: $radius-circle;
+  background: rgba($white, 0.05);
+  border: 1px solid rgba($white, 0.1);
+  transition: all $transition-base;
+
+  img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
+    opacity: 0.7;
+    transition: all $transition-base;
+  }
+
+  &:hover {
+    background: $red;
+    border-color: $red;
+
+    img {
+      opacity: 1;
+    }
+  }
+}
+
+// ── Form Column ──
+.formColumn {
+  animation: fadeUp $transition-slowest 0.3s ease both;
+}
+
+.formCard {
+  @include glass-card;
+  padding: 2rem;
+}
+
+.formTitle {
+  font-family: $font-display;
+  font-size: 1.75rem;
+  font-weight: $weight-bold;
+  color: $white;
+  margin-bottom: 0.5rem;
+}
+
+.formSubtitle {
+  color: $text-muted;
+  font-size: $font-sm;
+  margin-bottom: 1.5rem;
+}
+
+// ── Form Elements - EXACT same as MainPage ──
+.label {
+  @include label;
+  margin-bottom: 0.5rem;
+}
+
+.input {
+  @include input-base;
+}
+
+.textarea {
+  @include input-base;
+  resize: vertical;
+  min-height: 120px;
+}
+
+.formFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.privacyNote {
+  color: $text-muted;
+  font-size: $font-xs;
+
+  a {
+    color: $white;
+    text-decoration: none;
+    transition: color $transition-base;
+
+    &:hover {
+      color: $red-light;
+      text-decoration: underline;
+    }
+  }
+}
+
+.submitBtn {
+  @include btn-primary;
+  padding: 12px 32px !important;
+  font-size: 1rem !important;
+}
+
+// ── Success Message ──
+.successMessage {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.successIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 1.5rem;
+  background: rgba($red, 0.2);
+  border-radius: $radius-circle;
+  color: $red-light;
+  font-size: 2rem;
+  animation: scaleIn 0.3s ease;
+}
+
+// ── Team Section ──
+.teamSection {
+  margin-top: 5rem !important;
+}
+
+.teamBadge {
+  @include badge;
+  margin: 0 auto 1rem;
+  width: fit-content;
+}
+
+.teamTitle {
+  @include headline;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.teamSubtitle {
+  color: $text-muted;
+  font-size: 1rem;
+  margin-bottom: 3rem;
+}
+
+.teamCard {
+  @include glass(0.05, 10px);
+  border-radius: $radius-lg;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  border: 1px solid rgba($white, 0.05);
+  transition: all $transition-base;
+//   animation: fadeUp $transition-slowest (0.5s + 0.1s * var(--index, 0)) ease both;
+
+  &:hover {
+    border-color: rgba($red, 0.3);
+    transform: translateY(-5px);
+  }
+
+  h3 {
+    color: $white;
+    font-size: 1.25rem;
+    font-weight: $weight-bold;
+    margin: 1rem 0 0.25rem;
+  }
+}
+
+.teamAvatar {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: $radius-circle;
+    border: 3px solid rgba($red, 0.3);
+    object-fit: cover;
+  }
+}
+
+.statusDot {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: 12px;
+  height: 12px;
+  background: #4caf50;
+  border-radius: $radius-circle;
+  border: 2px solid $navy;
+  animation: pulse 2s infinite;
+}
+
+.teamRole {
+  color: $red-light;
+  font-size: $font-sm;
+  margin-bottom: 1rem;
+}
+
+.teamEmail {
+  color: $text-muted;
+  text-decoration: none;
+  font-size: $font-sm;
+  transition: color $transition-base;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+
+  &:hover {
+    color: $white;
+  }
+}
+
+.teamResponse {
+  color: rgba($white, 0.5);
+  font-size: $font-xs;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+
+  &::before {
+    content: '⚡';
+    font-size: 0.8rem;
+  }
+}
+
+// ── Map Section ──
+.mapSection {
+  margin-top: 3rem !important;
+}
+
+.mapCard {
+  @include glass-card;
+  padding: 1.5rem;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.mapPlaceholder {
+  flex: 1;
+  position: relative;
+  border-radius: $radius-md;
+  overflow: hidden;
+  background: rgba($navy-mid, 0.5);
+  min-height: 200px;
+}
+
+.mapOverlay {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: auto;
+    opacity: 0.7;
+  }
+}
+
+.mapLocation {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba($navy, 0.9);
+  padding: 0.75rem 1rem;
+  border-radius: $radius-sm;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid rgba($red, 0.3);
+
+  .pin {
+    font-size: 1.25rem;
+  }
+
+  p {
+    color: $white;
+    font-size: $font-sm;
+    margin: 0;
+  }
+}
+
+.mapInfo {
+  flex: 0 0 250px;
+
+  h3 {
+    color: $white;
+    font-size: 1.25rem;
+    font-weight: $weight-bold;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: $text-muted;
+    font-size: $font-sm;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.mapBtn {
+  @include btn-outline;
+  display: inline-block;
+  padding: 10px 24px !important;
+  font-size: 0.9rem !important;
+  text-decoration: none;
+}
+
+// ── Animations - EXACT same ──
+@keyframes pulse {
+  from { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ── Responsive ──
+@media (max-width: 992px) {
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .mapCard {
+    flex-direction: column;
+  }
+
+  .mapInfo {
+    flex: auto;
+    text-align: center;
+  }
+
+  .teamCard {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 60px 0;
+  }
+
+  .formFooter {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .submitBtn {
+    width: 100%;
+  }
+
+  .mapLocation {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    
+    p {
+      font-size: 0.8rem;
+    }
+  }
+}

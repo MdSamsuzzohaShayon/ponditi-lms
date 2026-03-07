@@ -3,27 +3,30 @@
 const { validationResult } = require('express-validator');
 const otpGenerator = require('otp-generator');
 const bcrypt = require('bcryptjs');
-const fsPromise = require('fs/promises');
 // Set your secret key. Remember to switch to your live secret key in production.
 // See your keys here: https://dashboard.stripe.com/apikeys
 const jwt = require('jsonwebtoken');
 const sendSMS = require('../utils/sendSMS');
-// bcryptjs
 const db = require('../models');
 const keys = require('../config/keys');
 const cookieOptions = require('../config/cookie-config');
-const config = require('../config/s3-config');
+const { s3, uploadImageToS3 } = require('../config/s3-config');
+const { unlinkFile, compressImage, bufferToReadableStream } = require('../utils/fileFunctions');
 
 // eslint-disable-next-line object-curly-newline
-const { Customer, ClassType, Subject, Notification, Education, Tuitionm } = db;
+const { Customer, ClassType, Subject, Notification, Education, Tuitionm, Review } = db;
 const { ADMIN, TEACHER, STUDENT } = keys.roles;
-const { PENDING, APPROVED, REJECTED, REQUEST_REGISTER } = keys.scheduledClassStatus;
+const {
+ PENDING, APPROVED, REJECTED, REQUEST_REGISTER 
+} = keys.scheduledClassStatus;
 const { BANGLA, ENGLISH, ARABIC } = keys.tuitionmedums;
 const { ONLINE, TL, SL } = keys.types;
+const { MALE, FEMALE, OTHERS } = keys.gender;
 
 /**
  * @param {type} req phone          raw phone number without any country code
  * @param {type} req cc             country code without plus
+ * Change in database isVerified is true and isActive === APPROVED
  * @returns response 201            If the number you is correct a verification OTP code will be sent there
  */
 const sendOTP = async (req, res) => {
@@ -33,23 +36,14 @@ const sendOTP = async (req, res) => {
   }
 
   try {
-    // isVerified === true
-    // isActive === APPROVED
     const { phone, cc } = req.body;
     const phoneWithSufix = `+${cc}${phone}`;
-    // if (cc === '88') {
-    //   phoneWithSufix = cc.substring(cc.length - 1) + phone; // Not for bangladesh
-    // } else {
-    //   phoneWithSufix = cc + phone;
-    // }
-    // const phoneForMSG = cc + phone;
     const otp = otpGenerator.generate(6, {
       upperCaseAlphabets: false,
       lowerCaseAlphabets: false,
       specialChars: false,
     });
 
-    // It is not loging out everytime we register
     if (process.env.NODE_ENV === 'development') {
       console.log({ otp });
     }
@@ -57,8 +51,7 @@ const sendOTP = async (req, res) => {
     const findByPhone = await Customer.findOne({
       where: { phone },
     });
-    // console.log({otp});
-    // console.log(findByPhone);
+
     if (findByPhone) {
       if (findByPhone.dataValues.isActive !== REQUEST_REGISTER) {
         return res.status(406).json({ msg: 'User is already registred with this phone number' });
@@ -73,7 +66,6 @@ const sendOTP = async (req, res) => {
         // show them that they are already registered
         return res.status(406).json({ msg: 'You already registered yourself with this phone number' });
       }
-      // console.log(phoneWithSufix, '+8801785208590');
       // let them register
       const response = await sendSMS(phoneWithSufix, `Your Ponditi verification code is : ${otp}`);
       if (response.status !== 200) return res.status(406).json({ msg: 'Invalid phone number' });
@@ -85,7 +77,9 @@ const sendOTP = async (req, res) => {
       });
     }
     const response = await sendSMS(phoneWithSufix, `Your Ponditi verification code is : ${otp}`);
-    if (response.status !== 200) return res.status(406).json({ msg: 'Invalid phone number' });
+    if (process.env.NODE_ENV === 'development') {
+      if (response.status !== 200) return res.status(406).json({ msg: 'Invalid phone number' });
+    }
     await Customer.create({
       phone,
       cc,
@@ -138,9 +132,9 @@ const verifyUser = async (req, res) => {
 /**
  * @param {type} res name           full name
  * @param {type} res phone          raw phone number without any country code
- * @param {type} res email          A valid email address later on you can use email to login
- * @param {type} res institution    A valid email address later on you can use email to login
- * @returns response 201            Registered user successfully, Now you can login
+ * @param {type} res email          A valid email address later on you can use email to register
+ * @param {type} res institution    A valid email address later on you can use email to register
+ * @returns response 201            Registered user successfully, Now you can register
  */
 const registerUser = async (req, res) => {
   const errors = validationResult(req);
@@ -190,6 +184,14 @@ const registerUser = async (req, res) => {
   delete userObj.major;
 
   userObj.otp = null;
+
+  if (userObj.gender.toUpperCase() === FEMALE) {
+    userObj.gender = FEMALE;
+  } else if (userObj.gender.toUpperCase() === OTHERS) {
+    userObj.gender = OTHERS;
+  } else {
+    userObj.gender = MALE;
+  }
 
   try {
     const userFindById = await Customer.findOne({
@@ -379,7 +381,7 @@ const login = async (req, res) => {
       role: userExist.dataValues.role,
     };
     const token = jwt.sign(userDetailResponse, process.env.JWT_SECRET, {
-      expiresIn: '1h',
+      expiresIn: '90d',
     });
     res.cookie('token', token, cookieOptions);
     userDetailResponse.name = userExist.dataValues.name;
@@ -530,32 +532,6 @@ const resendOTP = async (req, res) => {
   });
 };
 
-const getAllUsersTemp = async (req, res) => {
-  try {
-    const users = await Customer.findAll({
-      include: [
-        {
-          model: Subject,
-          attributes: ['id', 'name'],
-          // through: { where: { amount: 10 } }
-        },
-        {
-          model: ClassType,
-          attributes: ['id', 'name'],
-        },
-        {
-          model: Tuitionm,
-          attributes: ['id', 'name'],
-        },
-      ],
-    });
-    return res.status(200).json({ msg: 'Getting all users', users });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ msg: 'something went wrong', error });
-  }
-};
-
 const getAllUsers = async (req, res) => {
   try {
     const users = await Customer.findAll({
@@ -600,28 +576,27 @@ const getSingleUser = async (req, res) => {
   try {
     const userId = parseInt(id, 10);
     // include: [{ model: Education }],
+    const include = [{ model: ClassType }, { model: Tuitionm }, { model: Subject }, { model: Notification }, { model: Education }];
     const userExist = await Customer.findOne({
       where: { id: userId },
-      // include: [{ model: ClassType }, { model: Tuitionm }, { model: Subject }, { model: Notification }, { model: Education }],
+      include,
     });
     if (userExist === null) {
       return res.status(404).json({ msg: 'user not found' });
     }
-    const classTypes = await userExist.getClassTypes();
-    const tuitionms = await userExist.getTuitionms();
-    const subjects = await userExist.getSubjects();
-    const notifications = await userExist.getNotifications();
-    const educations = await userExist.getEducation();
+
+    let reviews = [];
+    if (userExist.dataValues.role === TEACHER) {
+      reviews = await userExist.getReviewtaker();
+    }
+
+    // console.log({include, role: req.userRole});
     const { password, otp, ...user } = userExist.dataValues;
     // console.log(user);
     return res.status(200).json({
       msg: 'Single user found',
       user,
-      tuitionms,
-      classTypes,
-      subjects,
-      notifications,
-      educations,
+      reviews,
     });
   } catch (error) {
     console.log(error);
@@ -663,7 +638,7 @@ const updateUser = async (req, res) => {
         return res.status(406).json({ msg: 'Tution place must be an array' });
       }
 
-      // Convert array to string 
+      // Convert array to string
       let newTutionplace = '';
       let i = 0;
       while (i < updatedObj.tutionplace.length) {
@@ -812,25 +787,29 @@ const updateExamUser = async (req, res) => {
 const updateImageUser = async (req, res) => {
   const { id } = req.params;
   const pId = parseInt(id, 10);
-  // console.log('Files - ', req.file.key);
   if (pId !== req.userId) {
-    return res.status(406).json({ msg: 'You can not update someonelse detail' });
+    return res.status(406).json({ msg: 'You can not update someon else detail' });
   }
   try {
-    if (!req?.file) {
+    if (!req.file) {
       return res.status(406).json({ msg: 'No image to update' });
     }
     const findUser = await Customer.findOne({
       where: { id: req.userId },
       include: [{ model: Education }],
     });
-    // console.log(findCustomer.Education.map((ue)=> ue.dataValues));
     if (findUser.role === ADMIN) {
       return res.status(406).json({ msg: "Admin can't be updated" });
     }
     if (findUser === null) {
       return res.status(404).json({ msg: 'User not found' });
     }
+
+    // console.log(req.file);
+    const filePath = `${__dirname}/../uploads/${req.file.filename}`;
+    await uploadImageToS3(req.file); // Upload compressed file
+    await unlinkFile(filePath); // Delete orginal file
+    // Delete file if it exist
 
     // If there is a file already delete that file first
     if (findUser.dataValues.image) {
@@ -839,28 +818,61 @@ const updateImageUser = async (req, res) => {
         Key: findUser.dataValues.image,
       };
       // console.log(params);
-      config.s3.deleteObject(params, (err, data) => {
-        if (err) console.log(err, err.stack); // an error occurred
-      });
-      /*
-      // Delete file locally
-      const fileAbsPath = `${__dirname}/../uploads/${findCustomer.dataValues.image}`;
-      // console.log({ existingFile: findCustomer.dataValues.image, fileAbsPath });
-      try {
-        const openFile = await fsPromise.open(fileAbsPath);
-        if (openFile) {
-          await fsPromise.unlink(fileAbsPath);
-        }
-        // console.log(openFile);
-      } catch (fileUnlinkErr) {
-        console.log(fileUnlinkErr);
-      }
-      */
+      await s3.deleteObject(params).promise();
     }
 
-    await Customer.update({ image: req.file.key }, { where: { id } });
+    await Customer.update({ image: req.file.filename }, { where: { id } });
 
-    return res.status(202).json({ msg: 'A user image updated', image: req.file.key });
+    return res.status(202).json({ msg: 'A user image updated', image: req.file.filename });
+  } catch (error) {
+    console.log(error);
+  }
+  return res.status(500).json({ msg: 'Something went wrong' });
+};
+
+const updatePersonalInfoUser = async (req, res) => {
+  const { id } = req.params;
+  const pId = parseInt(id, 10);
+  if (pId !== req.userId) {
+    return res.status(406).json({ msg: 'You can not update someon else detail' });
+  }
+  try {
+    const userUpdateObj = structuredClone(req.body);
+    const findUser = await Customer.findOne({
+      where: { id: req.userId },
+      include: [{ model: Education }],
+    });
+    if (findUser.role === ADMIN) {
+      return res.status(406).json({ msg: "Admin can't be updated" });
+    }
+    if (findUser === null) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    console.log(findUser);
+
+    // console.log(req.file);
+    if (req.file) {
+      const filePath = `${__dirname}/../uploads/${req.file.filename}`;
+      await uploadImageToS3(req.file); // Upload compressed file
+      await unlinkFile(filePath); // Delete orginal file
+      // Delete file if it exist
+
+      // If there is a file already delete that file first
+      if (findUser.dataValues.id_proof) {
+        const params = {
+          Bucket: process.env.AWS_BUCKET_NAME,
+          Key: findUser.dataValues.id_proof,
+        };
+        // console.log(params);
+        await s3.deleteObject(params).promise();
+      }
+      userUpdateObj.id_proof = req.file.filename;
+    }
+
+    await Customer.update(userUpdateObj, { where: { id } });
+
+    return res.status(202).json({ msg: 'A user personal info is been updated', userUpdateObj });
   } catch (error) {
     console.log(error);
   }
@@ -869,7 +881,7 @@ const updateImageUser = async (req, res) => {
 
 const notificationSeen = async (req, res) => {
   try {
-    const seenNotifications = await Notification.update({ viewed: true }, { where: { userId: req.userId } });
+    const seenNotifications = await Notification.update({ viewed: true }, { where: { CustomerId: req.userId } });
     if (seenNotifications === null) {
       return res.status(404).json({ msg: 'No notification found' });
     }
@@ -1010,12 +1022,12 @@ module.exports = {
   acceptUser,
   verifyUser,
   resendOTP,
-  getAllUsersTemp,
   getAllUsers,
   sendOTP,
   getSingleUser,
   updateUser,
   updateExamUser,
+  updatePersonalInfoUser,
   updateImageUser,
   logout,
   forgetPassword,

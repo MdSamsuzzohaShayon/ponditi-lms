@@ -11,6 +11,26 @@
  - Typescript
 
 ### Development
+ - [next js typescript](https://nextjs.org/learn/excel/typescript)
+ - [tsconfig](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)
+ - Eslint setup now install `npm install --save-dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-config-prettier eslint-plugin-prettier prettier`
+ - A room that will have two users with room status
+ - Server and client will have seperated cookie for login
+ 1. Teachers will not be able to chat before student write anything
+ 2. Chat will be closed after completing the tuition
+ 3. Change the label "student" to "Learner" everywhere in the website. There should be no "Student" label.
+ 4. Teacher will not be able to change the tuition request page until he change the status of expired tuition schedule.
+ 5. Admin panel will get the notification of expired task.
+ 6. Change the browser tab title
+ 7. Total count and search option(id,name,phone no) in Admin panel.
+ 8. Google search index for ponditi.com
+ 9. Compress profile photo
+
+### Typescript
+ - [socket io typescript](https://socket.io/docs/v4/typescript/)
+ - [Deals with cookie and socket io](https://socket.io/how-to/deal-with-cookies)
+ - [redux toolkit typescript](https://redux-toolkit.js.org/usage/usage-with-typescript), [tutorial](https://redux-toolkit.js.org/tutorials/typescript)
+ 
 
  - **Requirement update-2**
  - Reset all targeted value after making request and mounting a component
@@ -235,11 +255,44 @@
 
 
  - **Requirement update-9**
- - For student update only 1 medium and 1 class
- - Home text change
- - Change user table name
- - Admin - reject button is not working
- - Update mudium, class, subject is not working properly
+ - ✅ For student update only 1 medium and 1 class
+ - ✅ Home text change
+ - ✅ Change user table name
+ - ✅ Admin - reject button is not working
+ - ✅ Update mudium, class, subject is not working properly
+
+ - **Requirement update-10**
+ - ✅ Can not send message to all browser in the room
+ - ✅ 150px card
+ - ✅ bold tk
+ - ✅ top bar shadow in detail
+ - ✅ Available Status not in search detail page
+ - ✅ send request and chat button
+ - ✅ Chat page
+ - ✅ Prebook slot disabled
+ - ✅ Description to notes
+ - ✅ no hourly rate
+ - ✅ Notifications on menu need to resize and align properly (from teacher's)
+ - ✅ send request from chat
+ - ✅ no any option in search with class, medium, subject
+ - ✅ Booked slot will be disabled
+ - ✅ No professional institution for student
+ - ✅ NCheck current date is greater than previously saved date
+ - ✅ Nlocation of student can be edited edit
+ - ✅ Complete button only
+ - ✅ add gender and nid card field
+ - ✅ Profile page, on off in jamal
+ - fix chat time on sending sms
+ - Notification sms on phone (Accept, share link)
+ - Disable slot is not working
+ - Not getting right notigication message
+ - SMS Unseen ribbon
+ - Chat is not working properly
+ - AI Detects mobile number and social media links
+ - A teacher can block a student or a student can block a teacher
+ - delete useless images from AWS
+ - duplicate database and keep backup in excel file
+ - Search button
 
 
 ### Sequelize problems
@@ -250,6 +303,7 @@ Ask questions
 
 ### Advancing
  - [Update next js 13](https://www.youtube.com/watch?v=6aP9nyTcd44)
+ - Microservices
  - Dockerizing
  - Using sequelize cli properly to migrate, and undo with associations
  - Testing
@@ -271,22 +325,6 @@ Ask questions
  - 
 
 
-### Nest.js entities
- - Controller - Creating endpoints
- - Module
- - Services
- - Guards
- - Data transform objects
- - Pipe - transform and validate
- - Type orm [tutorial](https://www.youtube.com/watch?v=W1gvIw0GNl8) - https://docs.nestjs.com/recipes/sql-typeorm
- - [Tutorial 1](https://www.makeuseof.com/nestjs-typeorm-sql-databases/) - [tutorial 2](https://lagliam.medium.com/how-to-integrate-an-existing-mssql-database-using-nestjs-and-sequelize-21ff62c4c5ff)
- - Create module, controller, service 
-    ```
-    nest g module report
-    nest g controller report
-    nest g service report
-    ```
- - [mssql Installation on linux](https://www.youtube.com/watch?v=tT9UlXwBarw&t=50s)
 ### MsSQL queries
  - Delete all rows
  ```
@@ -298,25 +336,36 @@ Ask questions
  SET foreign_key_checks = 0;
  SET foreign_key_checks = 1;
  ```
- - Migrations
+ - We can drop foreign key if we want to and delete a column
+ ```
+ // This will show an error if it has an foreign key and will show foreign key name as well
+ ALTER TABLE Room DROP COLUMN userId;
+ // Drop foreign key
+ ALTER TABLE Room DROP FOREIGN KEY Room_userId_foreign_idx;
+ // Again drop the column
+ ALTER TABLE Room DROP COLUMN userId;
+ ```
+ - Migrations with mssql for specific file
  ```
  npx sequelize-cli db:migrate:undo:all --to 20220215110049-migration-skeleton.js --url 'mssql://sa:Test1234@localhost/ponditi_db'
  npx sequelize-cli db:migrate --url 'mssql://sa:Test1234@localhost/ponditi_db'
  ```
+ - Migration assosiations
+  - [Migrations, many-to-many relationships](https://fullstackopen.com/en/part13/migrations_many_to_many_relationships#many-to-many-relationships)
+  - [How to define Sequelize associations using migrations](https://medium.com/@andrewoons/how-to-define-sequelize-associations-using-migrations-de4333bf75a7)
 ### Challenges
  - [Cross domain cookie](https://stackoverflow.com/questions/3342140/cross-domain-cookies/74231202#74231202)
 
 ### Docker
  - [Dockerize Your Full-Stack App](https://www.youtube.com/watch?v=Jo5TVUBjbIs), [Dockerizing Full Stack Web App REACTJS & NODEJS](https://www.youtube.com/watch?v=IDVUy34vlSE)
 
-ALTER TABLE Customers
-ADD Email varchar(255);
+
 ### Track
  - We must make all the tracking of database changes
 
  - ✅ *Add ref in User and remove board from Education*
- - *Add institution in User* - `ALTER TABLE User ADD institution VARCHAR(255);` alternate `ALTER TABLE dbo.[User] ADD institution VARCHAR(255);`
- - *Change table name*
+ - ✅ *Add institution in User* - `ALTER TABLE User ADD institution VARCHAR(255);` alternate `ALTER TABLE dbo.[User] ADD institution VARCHAR(255);`
+ - ✅ *Change table name*
     ```
     // Change table names
     EXEC sp_rename 'User', 'Customer';
@@ -335,6 +384,58 @@ ADD Email varchar(255);
     EXEC sp_RENAME 'Notification.UserId' , 'CustomerId', 'COLUMN';
     EXEC sp_RENAME 'CustomerToTuitionm.UserId' , 'CustomerId', 'COLUMN';
     ```
+ - *Create Room with relation of customer multiple times*
+    ```
+    CREATE TABLE Room (
+      id INT PRIMARY KEY AUTO_INCREMENT,
+      name VARCHAR(20) NOT NULL,
+      status VARCHAR(20) NOT NULL,
+      createdAt DATETIME NOT NULL,
+      updatedAt DATETIME NOT NULL,
+      invitorId INT ,
+      FOREIGN KEY(invitorId) REFERENCES Customer(id),
+      invitereceverId INT,
+      FOREIGN KEY (invitereceverId) REFERENCES Customer(id)      
+    );
+    ```    
+
+- *Create Message ane make relation of customer multiple times and relation with room*
+  ```
+  CREATE TABLE Message (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    text VARCHAR(255) NOT NULL,
+    publish BOOLEAN NOT NULL DEFAULT false,
+    createdAt DATETIME NOT NULL,
+    updatedAt DATETIME NOT NULL,
+    messagesenderId INT ,
+    FOREIGN KEY(messagesenderId) REFERENCES Customer(id),
+    messagereceverId INT,
+    FOREIGN KEY (messagereceverId) REFERENCES Customer(id)   ,
+    RoomId INT,
+    FOREIGN KEY (RoomId) REFERENCES Room(id) 
+  );
+  ```
+ - *Add gender and NID card*
+ ```
+ ALTER TABLE Customer ADD COLUMN gender VARCHAR(15) NOT NULL SET DEFAULT 'MALE';
+ ALTER TABLE Customer ADD COLUMN id_proof VARCHAR(100);
+ ```
+ - *Add notification room table*
+  ```
+  CREATE TABLE Notroom(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(20) NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'RUNNING',
+    createdAt DATETIME NOT NULL,
+    updatedAt DATETIME NOT NULL,
+    notroominvitorId INT,
+    FOREIGN KEY (notroominvitorId) REFERENCES Customer(id),
+    invitereceiverId INT,
+    FOREIGN KEY (invitereceiverId) REFERENCES Customer(id)
+  );
+  ```
+
+
 
 
 

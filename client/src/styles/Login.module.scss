@@ -1,0 +1,360 @@
+@use './_variables' as *;
+@use './_mixins' as *;
+
+// ══════════════════════════════════════════════
+//  HERO SECTION - EXACT same as MainPage
+// ══════════════════════════════════════════════
+.hero {
+  position: relative;
+  min-height: calc(100vh - 70px);
+  @include navyGradient;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  font-family: $font-body;
+  padding-top: 4rem !important;
+  padding-bottom: 5rem !important;
+}
+
+// Decorative background elements - EXACT same
+.blob1,
+.blob2 {
+  position: absolute;
+  border-radius: $radius-circle;
+  pointer-events: none;
+}
+
+.blob1 {
+  width: 560px;
+  height: 560px;
+  top: -180px;
+  right: -120px;
+  @include radialRedGradient;
+  animation: pulse 8s ease-in-out infinite alternate;
+}
+
+.blob2 {
+  width: 400px;
+  height: 400px;
+  bottom: -100px;
+  left: -80px;
+  @include radialNavyGradient;
+  animation: pulse 10s ease-in-out infinite alternate-reverse;
+}
+
+.gridOverlay {
+  @include absolute-fill;
+  @include grid-overlay(rgba($white, 0.03), 48px);
+  pointer-events: none;
+}
+
+// ── Badge - EXACT same ──
+.badge {
+  @include badge;
+  margin-bottom: 1.25rem;
+  animation: fadeUp $transition-slowest ease both;
+}
+
+// ── Headline - EXACT same ──
+.headline {
+  @include headline;
+  margin-bottom: 1.1rem;
+  animation: fadeUp $transition-slowest 0.1s ease both;
+}
+
+.highlight {
+  position: relative;
+  color: $red-light;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 2px;
+    width: 100%;
+    height: 3px;
+    @include redGradient;
+    border-radius: 2px;
+  }
+}
+
+// ── Subtext - EXACT same ──
+.subtext {
+  @include subtext;
+  max-width: 440px;
+  margin-bottom: 2rem;
+  animation: fadeUp $transition-slowest 0.2s ease both;
+}
+
+// ── Login Card - EXACT same as searchCard ──
+.loginCard {
+  @include glass-card;
+  padding: 2rem;
+  animation: fadeUp $transition-slowest 0.3s ease both;
+}
+
+.cardTitle {
+  font-family: $font-display;
+  font-size: 1.5rem;
+  font-weight: $weight-bold;
+  color: $white;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+// ── Form Elements - EXACT same as MainPage ──
+.label {
+  @include label;
+  margin-bottom: 0.5rem;
+}
+
+.input {
+  @include input-base;
+  
+  // Remove spinner for number input
+  &[type="number"] {
+    -moz-appearance: textfield;
+    
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+}
+
+// ── Forgot Password ──
+.forgotPassword {
+  text-align: right;
+  margin-top: -0.5rem;
+}
+
+.forgotLink {
+  color: $text-muted;
+  font-size: $font-sm;
+  text-decoration: none;
+  transition: color $transition-base;
+
+  &:hover {
+    color: $red-light;
+    text-decoration: underline;
+  }
+}
+
+// ── Form Footer ──
+.formFooter {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.loginBtn {
+  @include btn-primary;
+  padding: 12px 36px !important;
+  font-size: 1rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+// ── Register Section ──
+.registerSection {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba($white, 0.1);
+  text-align: center;
+}
+
+.registerText {
+  color: $text-muted;
+  font-size: $font-sm;
+}
+
+.registerLink {
+  color: $red-light;
+  text-decoration: none;
+  font-weight: $weight-medium;
+  transition: all $transition-base;
+
+  &:hover {
+    color: $white;
+    text-decoration: underline;
+  }
+}
+
+// ── Demo Credentials ──
+.demoSection {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba($white, 0.03);
+  border-radius: $radius-sm;
+  border: 1px dashed rgba($red, 0.3);
+}
+
+.demoTitle {
+  color: $text-muted;
+  font-size: $font-xs;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.demoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.demoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.demoLabel {
+  color: $text-muted;
+  font-size: $font-xs;
+}
+
+.demoValue {
+  color: $white;
+  font-size: $font-sm;
+  font-weight: $weight-medium;
+  background: rgba($red, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: $radius-sm;
+  display: inline-block;
+  width: fit-content;
+}
+
+// ── Error Message ──
+.errorMessage {
+  color: $red-light;
+  font-size: $font-xs;
+  margin-top: 0.5rem;
+  animation: fadeUp $transition-base ease;
+}
+
+// ── Trust badges - EXACT same ──
+.trustRow {
+  animation: fadeUp $transition-slowest 0.45s ease both;
+}
+
+.trustBadge {
+  @include trust-badge;
+}
+
+// ── Illustration area - EXACT same ──
+.illustrationWrap {
+  position: relative;
+}
+
+.illustrationCard {
+  position: relative;
+  animation: fadeUp $transition-slowest 0.2s ease both;
+}
+
+.illustration {
+  width: 100%;
+  max-width: 520px;
+  filter: drop-shadow(0 30px 60px rgba($red, 0.15));
+  @include animation-float;
+}
+
+// Floating info cards - EXACT same
+.floatCard {
+  position: absolute;
+  @include glass(0.07, 12px);
+  border-radius: $radius-md;
+  padding: 10px 16px;
+  font-size: 0.82rem;
+  font-weight: $weight-medium;
+  color: rgba($white, 0.90);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  box-shadow: $shadow-lg;
+
+  span {
+    font-size: 1.1rem;
+  }
+}
+
+.floatCard1 {
+  bottom: 100px;
+  left: -30px;
+  animation: floatCard1 7s ease-in-out infinite;
+}
+
+.floatCard2 {
+  top: 80px;
+  right: -10px;
+  animation: floatCard2 7s ease-in-out infinite 1s;
+}
+
+.floatCard3 {
+  bottom: 200px;
+  right: 50px;
+  animation: floatCard3 8s ease-in-out infinite 0.5s;
+}
+
+// ── Animations - EXACT same ──
+@keyframes pulse {
+  from { transform: scale(1) translate(0, 0); }
+  to { transform: scale(1.12) translate(20px, 20px); }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatCard1 {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-10px) rotate(1deg); }
+}
+
+@keyframes floatCard2 {
+  0%, 100% { transform: translateY(0) rotate(1deg); }
+  50% { transform: translateY(-12px) rotate(-1deg); }
+}
+
+@keyframes floatCard3 {
+  0%, 100% { transform: translateY(0) rotate(2deg); }
+  50% { transform: translateY(-8px) rotate(-2deg); }
+}
+
+// ── Responsive - EXACT same as MainPage ──
+@media (max-width: 992px) {
+  .demoGrid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 60px 0;
+  }
+  
+  .loginCard {
+    padding: 1.5rem;
+  }
+  
+  .formFooter {
+    justify-content: center;
+  }
+  
+  .loginBtn {
+    width: 100%;
+  }
+  
+  .floatCard3 {
+    display: none;
+  }
+}

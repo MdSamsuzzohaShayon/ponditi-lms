@@ -1,0 +1,52 @@
+import { useAppSelector } from '@/redux/store';
+import React from 'react';
+import { useSelector } from 'react-redux';
+
+// @ts-ignore
+function Step3({ inputChangeHandler, update }) {
+
+  const userInfo = useAppSelector((state) => state.user.currentUser);
+  return (
+    <>
+      <div className="row mb-3 mx-0">
+        <div className="col-sm-12 col-md-6">
+          <label htmlFor="firstname">Degree / Education</label>
+          {/* // @ts-ignore */}
+          <input type="text" className="form-control" name="degree" id="degree"  onChange={inputChangeHandler} placeholder="E.G. BBA" />
+        </div>
+        <div className="col-sm-12 col-md-6">
+          <label htmlFor="major">Major</label>
+          {/* // @ts-ignore */}
+          <input type="text" className="form-control" name="major" id="major"  onChange={inputChangeHandler} placeholder="E.G. Finance" />
+        </div>
+      </div>
+      <div className="row mb-3 mx-0">
+        <div className="col-sm-12 col-md-6">
+          <label htmlFor="passing_year">Passing Year</label>
+          <input
+            type="number"
+            className="form-control"
+            name="passing_year"
+            id="passing_year"
+            // @ts-ignore
+            defaultValue={userInfo.passing_year}
+            onChange={inputChangeHandler}
+            placeholder="E.G. 2020"
+          />
+        </div>
+        <div className="col-sm-12 col-md-6">
+          <label htmlFor="cgpa">CGPA</label>
+          <input type="text" className="form-control" name="cgpa" id="cgpa" onChange={inputChangeHandler} placeholder="E.G. 3.50" />
+        </div>
+      </div>
+
+      <div className="row mb-3 mx-0 d-flex w-full justify-content-end">
+        <button className="btn btn-primary w-fit mx-3" type="submit">
+          {update ? 'Update' : 'Register'}
+        </button>
+      </div>
+    </>
+  );
+}
+
+export default Step3;
