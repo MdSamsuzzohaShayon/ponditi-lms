@@ -1,12 +1,12 @@
-export const BACKEND_URL: string = 'http://localhost:9000';
+export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 // export const BACKEND_URL = 'https://ponditi.com';
 // export const BACKEND_URL = 'https://backend.ryansoftbd.com';
 // export const BACKEND_URL = 'https://ponditi-api.onrender.com';
 
-export const AWS_S3_URL: string = 'https://ponditistorage.s3.ap-southeast-1.amazonaws.com';
+export const AWS_S3_URL = process.env.NEXT_PUBLIC_AWS_S3_URL;
 
 export const APP_NAME = 'Ponditi';
-export const GOOGLE_PLACE_API_KEY = 'AIzaSyAF8GtQJ6sD_O731EUBO3ATruUYjObZYdg';
+export const GOOGLE_PLACE_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_PLACE_API_KEY;
 export const libraries = ['places'];
 
 export const SEND_CODE = 'SEND_CODE';

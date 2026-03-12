@@ -1,3 +1,5 @@
+'use client'
+
 import MainPage from '@/components/home/MainPage';
 
 function page() {

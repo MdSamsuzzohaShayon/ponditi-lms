@@ -17,6 +17,8 @@ $border: rgba(255, 255, 255, 0.10);
 $border-light: rgba(255, 255, 255, 0.12);
 $border-hover: rgba(255, 255, 255, 0.6);
 
+
+
 // ── Gradients ────────────────────────────────────────────
 $gradient-red: linear-gradient(135deg, #e5192a 0%, #b5111f 100%);
 $gradient-navy: linear-gradient(160deg, #0b1437 0%, #111d4a 55%, #1a0a2e 100%);
@@ -80,21 +82,4 @@ $transition-base: 0.2s;
 $transition-slow: 0.3s;
 $transition-slowest: 0.6s;
 
-// ── CSS Custom Properties (for runtime use) ──────────────
-:root {
-  --red: #{$red};
-  --red-dark: #{$red-dark};
-  --red-light: #{$red-light};
-  --navy: #{$navy};
-  --navy-mid: #{$navy-mid};
-  --navy-light: #{$navy-light};
-  --cream: #{$cream};
-  --white: #{$white};
-  --text-muted: #{$text-muted};
-  --border: #{$border};
-  --radius-sm: #{$radius-sm};
-  --radius-md: #{$radius-md};
-  --radius-lg: #{$radius-lg};
-  --font-display: #{$font-display};
-  --font-body: #{$font-body};
-}
+$mint: blue;

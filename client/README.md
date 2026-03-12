@@ -16,3 +16,9 @@
  - Uncomment all code that ends with `// temp`
  - Google places api for finding tutor near me
  - Build properly before making it public `npm run build`
+ - Instead of google google places api use OpenStreetMap + Nominatim
+
+
+### Design Inspiration
+ - Themeforest - https://fastwpdemo.com/newwp/educamb/instructor/
+ - 
