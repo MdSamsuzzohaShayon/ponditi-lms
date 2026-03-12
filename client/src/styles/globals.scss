@@ -1,7 +1,20 @@
 // Import variables and mixins
-@use './_variables' as *;
-@use './_mixins' as *;
+@use './abstracts/_variables' as *;
+// @use './_mixins' as *;
 
 
 // Import Google Fonts
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+
+// ═══════════════════════════════════════════════
+//  PAGE ROOT
+// ═══════════════════════════════════════════════
+.pageRoot {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    background: $light;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  
+  

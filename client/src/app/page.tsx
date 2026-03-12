@@ -1,12 +1,13 @@
 'use client'
 
 import MainPage from '@/components/home/MainPage';
+import React from 'react';
 
 function page() {
   return (
-    <div>
+    <React.Fragment>
       <MainPage />
-    </div>
+    </React.Fragment>
   )
 }
 

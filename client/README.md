@@ -20,5 +20,5 @@
 
 
 ### Design Inspiration
- - Themeforest - https://fastwpdemo.com/newwp/educamb/instructor/
+ - Themeforest - https://fastwpdemo.com/newwp/ponditi/instructor/
  - 

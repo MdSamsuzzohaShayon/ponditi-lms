@@ -3,9 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import  "bootstrap/dist/css/bootstrap.min.css"
 import "@/styles/globals.scss";
 import ThemeProvider from "@/lib/ThemeProvider";
-import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
 import ReduxProvider from "@/lib/ReduxProvider";
+import Navbar from "@/components/layouts/Navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,12 +29,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} pageRoot`}>
         <ReduxProvider>
           <ThemeProvider>
-            {/* <Header /> */}
+            <Navbar />
             {children}
-            {/* <Footer /> */}
+            <Footer />
           </ThemeProvider>
         </ReduxProvider>
       </body>
