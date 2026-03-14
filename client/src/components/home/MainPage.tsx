@@ -1,6 +1,10 @@
-import { useState, useEffect, useRef, memo, useCallback, useMemo, JSX } from "react";
+'use client'
+
+
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import s from "@/styles/HomePage.module.scss";
 import { categories, filterData, instructors, popularCourses, testimonials } from "@/utils/staticData";
+import { IResponseData } from "@/types";
 import StarBurst from "../svg/StarBurst";
 import CircleRing from "../svg/CircleRing";
 import HeroDecorations from "./HeroDecorations";
@@ -17,28 +21,34 @@ import TrophyIcon from "../icons/TrophyIcon";
 import DotsGrid from "../svg/DotsGrid";
 import InstructorCard from "./InstructorCard";
 import TestimonialCard from "./TestimonialCard";
-
-
-
-
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { setSearchParams } from "@/redux/reducers/searchReducer";
+import { fetchAllClassTypes } from "@/redux/reducers/classtypeReducer";
+import { fetchAllSubjects } from "@/redux/reducers/subjectReducer";
+import { fetchAllTuitionms } from "@/redux/reducers/tuitionmReducer";
 
 
 // ─────────────────────────────────────────────
 //  MAIN COMPONENT
 // ─────────────────────────────────────────────
 
-export default function HeroSection() {
-  // const [scrolled, setScrolled] = useState<boolean>(false);
+export default function MainPage({ data }: { data: IResponseData }) {
   const [activeTab, setActiveTab] = useState<'popular' | 'new' | 'top'>('popular');
 
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     setScrolled(window.scrollY > 10);
-  //   };
+  let isMounted = useRef<boolean>(true);
 
-  //   window.addEventListener("scroll", handleScroll, { passive: true });
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, []);
+  const dispatch = useAppDispatch();
+
+  
+  const isLoading = useAppSelector((state) => state.elements.isLoading);
+  const tuitionmList = useAppSelector((state) => state.tuitionm.tuitionmList);
+  const authUserInfo = useAppSelector(state => state.user.authUserInfo);
+
+  const {classTypes, subjects, tuitionms} = data;
+
+
+  
+
 
   const handleTabChange = useCallback((tab: 'popular' | 'new' | 'top') => {
     setActiveTab(tab);
@@ -46,8 +56,6 @@ export default function HeroSection() {
 
   return (
     <div className="w-100">
-      {/* Navbar  */}
-
       <section className={s.hero}>
         <div className={s.ambientOrb1} aria-hidden="true" />
         <div className={s.ambientOrb2} aria-hidden="true" />
@@ -61,7 +69,7 @@ export default function HeroSection() {
         <div className="container-xl px-4 px-lg-5 w-100 h-100" style={{ position: "relative", zIndex: 4 }}>
           <div className={`row ${s.heroRow}`}>
             <div className="col-12 col-lg-6 col-xl-5 d-flex align-items-center">
-              <HeroContent filterData={filterData} s={s} />
+              <HeroContent classTypes={classTypes} subjects={subjects} tuitionms={tuitionms} s={s} />
             </div>
           </div>
         </div>
@@ -213,7 +221,7 @@ export default function HeroSection() {
           <div className="row g-4">
             {testimonials.map((testimonial, i) => (
               <div key={i} className="col-12 col-md-4">
-                <TestimonialCard {...testimonial} s={s}  />
+                <TestimonialCard {...testimonial} s={s} />
               </div>
             ))}
           </div>

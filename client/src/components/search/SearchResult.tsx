@@ -19,11 +19,11 @@ import MakeStar from '../elements/MakeStar';
 
 // Types
 import { ClassAndSubjectInterface } from '@/types/pages/searchPageInterface';
-import { TuitionStyleEnum, UserRoleEnum } from '@/types/enums';
+import { ETuitionStyle, UserRoleEnum } from '@/types/enums';
 import { TuitionRateInterface } from '@/types/redux/userInterface';
 import { useRouter } from 'next/navigation';
 
-const { ANY } = TuitionStyleEnum;
+const { ANY } = ETuitionStyle;
 const { ONLINE } = types;
 
 function SearchResult() {

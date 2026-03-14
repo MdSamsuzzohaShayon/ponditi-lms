@@ -1,0 +1,650 @@
+@use './abstracts/variables' as *;
+@use './abstracts//keyframes' as *;
+
+
+// Import shared filter styles
+@use './components/_filter';
+
+// Page Layout
+.pageWrapper {
+  min-height: 100vh;
+  background: linear-gradient(145deg, #F0ECFF 0%, #F7F5FF 40%, #EAF9F1 100%);
+  padding: 40px 0 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+// Ambient Orbs (matching home page)
+.ambientOrb1 {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(74, 61, 143, 0.12) 0%, transparent 70%);
+  top: -100px;
+  left: -150px;
+  pointer-events: none;
+  animation: orbFloat 12s ease-in-out infinite;
+  z-index: 0;
+}
+
+.ambientOrb2 {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(62, 200, 120, 0.1) 0%, transparent 70%);
+  bottom: -80px;
+  right: -100px;
+  pointer-events: none;
+  animation: orbFloat2 15s ease-in-out infinite;
+  z-index: 0;
+}
+
+// Background Words (matching home page)
+.bgWord {
+  position: absolute;
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -4px;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+  opacity: 0.035;
+  color: $dark;
+  line-height: 1;
+}
+
+.bgWordTeachers {
+  font-size: clamp(80px, 14vw, 180px);
+  bottom: 3%;
+  right: -1%;
+}
+
+.bgWordSearch {
+  font-size: clamp(50px, 9vw, 120px);
+  top: 10%;
+  left: -1%;
+}
+
+// Page Header
+.pageHeader {
+  position: relative;
+  z-index: 4;
+  margin-bottom: 40px;
+  
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 900;
+    color: $dark;
+    margin-bottom: 10px;
+    
+    span {
+      background: linear-gradient(135deg, $purple, $green);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  }
+  
+  p {
+    font-size: 1.1rem;
+    color: $mid;
+    max-width: 600px;
+  }
+}
+
+// Search Section
+.searchSection {
+  position: relative;
+  z-index: 4;
+  margin-bottom: 50px;
+}
+
+// Results Section
+.resultsSection {
+  position: relative;
+  z-index: 4;
+}
+
+.resultsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.resultsTitle {
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: $dark;
+    margin-bottom: 5px;
+  }
+  
+  p {
+    font-size: 0.95rem;
+    color: $mid;
+    
+    strong {
+      color: $purple;
+      font-weight: 700;
+    }
+  }
+}
+
+.resultsSort {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  
+  label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: $mid;
+  }
+  
+  select {
+    background: white;
+    border: 1.5px solid rgba(74, 61, 143, 0.1);
+    border-radius: 10px;
+    padding: 8px 30px 8px 15px;
+    font-size: 0.9rem;
+    color: $dark;
+    font-weight: 500;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234A3D8F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    
+    &:hover, &:focus {
+      border-color: $purple;
+      outline: none;
+    }
+  }
+}
+
+// Teacher Cards Grid
+.teacherGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
+  margin-bottom: 50px;
+}
+
+.teacherCard {
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(74, 61, 143, 0.06);
+  border: 1.5px solid rgba(74, 61, 143, 0.06);
+  transition: all 0.3s ease;
+  animation: fadeUp 0.6s ease both;
+  
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(74, 61, 143, 0.12);
+    border-color: $green;
+    
+    .teacherImage {
+      transform: scale(1.05);
+    }
+    
+    .viewProfileBtn {
+      background: $purple;
+      color: white;
+      border-color: $purple;
+    }
+  }
+}
+
+.teacherImageWrapper {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
+    z-index: 1;
+  }
+}
+
+.teacherImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.teacherBadge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 2;
+  background: $green;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.teacherContent {
+  padding: 20px;
+}
+
+.teacherHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.teacherName {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: $dark;
+  margin-bottom: 4px;
+}
+
+.teacherTitle {
+  font-size: 0.9rem;
+  color: $purple;
+  font-weight: 600;
+}
+
+.teacherRating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: $green-pale;
+  padding: 4px 10px;
+  border-radius: 20px;
+  
+  span {
+    font-weight: 700;
+    color: $dark;
+  }
+  
+  svg {
+    color: #FFB800;
+  }
+}
+
+.teacherSpecialties {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.specialtyTag {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: $mid;
+  background: $light;
+  padding: 4px 12px;
+  border-radius: 20px;
+  
+  &:hover {
+    background: $purple-pale;
+    color: $purple;
+  }
+}
+
+.teacherStats {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  padding: 15px 0;
+  border-top: 1px solid rgba(74, 61, 143, 0.06);
+  border-bottom: 1px solid rgba(74, 61, 143, 0.06);
+}
+
+.statItem {
+  text-align: center;
+  flex: 1;
+}
+
+.statValue {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: $dark;
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 0.7rem;
+  color: $mid;
+  font-weight: 500;
+  margin-top: 3px;
+}
+
+.teacherFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.teacherPrice {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: $green;
+  
+  span {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: $mid;
+  }
+}
+
+.viewProfileBtn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: 1.5px solid $purple;
+  border-radius: 10px;
+  padding: 6px 15px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: $purple;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: $purple;
+    color: white;
+    transform: translateX(3px);
+    
+    svg {
+      transform: translateX(2px);
+    }
+  }
+  
+  svg {
+    transition: transform 0.2s;
+  }
+}
+
+// Empty State
+.emptyState {
+  text-align: center;
+  padding: 80px 20px;
+  background: white;
+  border-radius: 30px;
+  border: 2px dashed rgba(74, 61, 143, 0.15);
+  animation: fadeUp 0.6s ease both;
+  
+  svg {
+    width: 80px;
+    height: 80px;
+    color: $mid;
+    opacity: 0.5;
+    margin-bottom: 20px;
+  }
+  
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: $dark;
+    margin-bottom: 10px;
+  }
+  
+  p {
+    font-size: 1rem;
+    color: $mid;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}
+
+// Pagination
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 40px;
+}
+
+.pageItem {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: white;
+  border: 1.5px solid rgba(74, 61, 143, 0.1);
+  color: $mid;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    border-color: $purple;
+    color: $purple;
+  }
+  
+  &.active {
+    background: $purple;
+    border-color: $purple;
+    color: white;
+  }
+  
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+// Loading State
+.loadingState {
+  text-align: center;
+  padding: 60px 20px;
+  
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid $light;
+    border-top-color: $purple;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 20px;
+  }
+  
+  p {
+    font-size: 1rem;
+    color: $mid;
+  }
+}
+
+// Animations
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .pageWrapper {
+    padding: 20px 0 40px;
+  }
+  
+  .resultsHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .teacherGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .teacherCard {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .pageHeader h1 {
+    font-size: 2rem;
+  }
+  
+  .resultsTitle h2 {
+    font-size: 1.5rem;
+  }
+}
+
+
+
+
+
+
+
+// Add these styles to your TeacherSearch.module.scss
+
+.teacherInstitution {
+  font-size: 0.85rem;
+  color: $purple;
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.availableBadge {
+  background: $green;
+  left: 15px;
+  right: auto;
+}
+
+.tuitionStyles {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(74, 61, 143, 0.06);
+}
+
+.tuitionStyleBadge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: $purple-pale;
+  color: $purple;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  
+  &:nth-child(2) {
+    background: $green-pale;
+    color: $green-dark;
+  }
+  
+  &:nth-child(3) {
+    background: #FFF0E0;
+    color: #E67E22;
+  }
+}
+
+// Update teacherStats for better alignment
+.teacherStats {
+  display: flex;
+  gap: 15px;
+  margin: 15px 0;
+  padding: 12px 0;
+  border-top: 1px solid rgba(74, 61, 143, 0.06);
+  border-bottom: 1px solid rgba(74, 61, 143, 0.06);
+}
+
+.statItem {
+  text-align: center;
+  flex: 1;
+}
+
+.statValue {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: $dark;
+  line-height: 1.2;
+}
+
+.statLabel {
+  font-size: 0.7rem;
+  color: $mid;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+// Update teacher header for better spacing
+.teacherHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.teacherName {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: $dark;
+  margin-bottom: 2px;
+  line-height: 1.3;
+}
+
+.teacherTitle {
+  font-size: 0.85rem;
+  color: $mid;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.teacherRating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: $green-pale;
+  padding: 4px 8px;
+  border-radius: 20px;
+  
+  span {
+    font-weight: 700;
+    color: $dark;
+    font-size: 0.9rem;
+  }
+  
+  svg {
+    color: #FFB800;
+  }
+}
+
+// Update teacher price
+.teacherPrice {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: $green;
+  
+  span {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: $mid;
+    margin-left: 2px;
+  }
+}

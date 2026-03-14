@@ -11,7 +11,7 @@ import axios from '@/config/axios';
 // Types
 import { SingleScheduledClassInterface } from '@/types/pages/scheduledclassInterface';
 import { ScheduledClassInterface, SlotInterface, TuitionStyle } from '@/types/redux/scheduledclassInterface';
-import { TimeAMPMEnum, TuitionStyleEnum, StatusEnum } from '@/types/enums';
+import { TimeAMPMEnum, ETuitionStyle, StatusEnum } from '@/types/enums';
 
 // Redux
 import { resetAuthUserInfo } from './userReducer';
@@ -32,17 +32,17 @@ const initialTuitionStyle: TuitionStyle[] = [
   {
     id: 1,
     text: 'Online',
-    value: TuitionStyleEnum.ONLINE,
+    value: ETuitionStyle.ONLINE,
   },
   {
     id: 2,
     text: "Teacher's Location",
-    value: TuitionStyleEnum.TL,
+    value: ETuitionStyle.TL,
   },
   {
     id: 3,
     text: "Student's Location",
-    value: TuitionStyleEnum.SL,
+    value: ETuitionStyle.SL,
   },
 ];
 
@@ -53,7 +53,7 @@ const initialAScheduledClass: ScheduledClassInterface = {
   desc: 'This is Note',
   date: `${today.getMonth() + 1}-${today.getDate()}-${today.getFullYear()}`,
   time: '',
-  tutionplace: TuitionStyleEnum.ONLINE,
+  tutionplace: ETuitionStyle.ONLINE,
   tuitionlocation: '',
   // start: iscStart,
   // hours: iscHours,

@@ -1,31 +1,31 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import { SearchParamsInterface } from '../../types/redux/searchInterface';
-import { TuitionStyleEnum } from '../../types/enums';
+import { ETuitionStyle } from '../../types/enums';
 import { SingleUserInterface } from '../../types/redux/userInterface';
 
 export const initialSearchParams: SearchParamsInterface = {
   location: '',
   ClassTypeId: 0, // id
   SubjectId: 0, // id
-  tutionplace: TuitionStyleEnum.ANY, // Online - tution location
+  tutionplace: ETuitionStyle.ANY, // Online - tution location
   TuitionmId: 0,
 };
 
 const initialTuitionType = [
   {
     id: 1,
-    type: TuitionStyleEnum.ONLINE,
+    type: ETuitionStyle.ONLINE,
     text: 'Online',
   },
   {
     id: 2,
-    type: TuitionStyleEnum.TL,
+    type: ETuitionStyle.TL,
     text: "Teacher's Location",
   },
   {
     id: 3,
-    type: TuitionStyleEnum.SL,
+    type: ETuitionStyle.SL,
     text: "Student's Location",
   },
 ];

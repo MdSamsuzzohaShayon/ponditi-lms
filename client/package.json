@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@geoapify/geocoder-autocomplete": "^3.0.1",
     "@react-google-maps/api": "^2.20.8",
     "@reduxjs/toolkit": "^2.11.2",
     "@types/socket.io-client": "^3.0.0",

@@ -81,7 +81,11 @@ io.on('connection', socketRoutes);
 
 const PORT = process.env.PORT || 9000;
 
+httpServer.listen(PORT, () => {
+  console.log(`Server is running on ${PORT}`);
+});
 
+/*
 if (process.env.FORCE_DB_SYNC === 'true') {
   console.log('⚠️ Running force DB sync...');
   db.sequelize.sync({ alter: true, force: true }).then(() => {
@@ -94,3 +98,4 @@ if (process.env.FORCE_DB_SYNC === 'true') {
     console.log(`Server is running on ${PORT}`);
   });
 }
+*/

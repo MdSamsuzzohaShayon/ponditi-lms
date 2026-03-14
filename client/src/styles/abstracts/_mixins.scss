@@ -3,7 +3,7 @@
 //  Use @use './mixins' as * to import
 // ═════════════════════════════════════════════════════════
 
-@use './_variables' as *;
+@use './variables' as *;
 
 // ── Gradients ────────────────────────────────────────────
 @mixin redGradient {
@@ -11,7 +11,7 @@
 }
 
 @mixin navyGradient {
-  background: linear-gradient(160deg, $navy 0%, $navy-mid 55%, #1a0a2e 100%);
+  background: linear-gradient(160deg, $purple 0%, $purple-pale 55%, #1a0a2e 100%);
 }
 
 @mixin radialRedGradient {
@@ -128,7 +128,7 @@
   }
 
   option {
-    background: $navy-mid;
+    background: $purple-pale;
     color: $white;
   }
 }

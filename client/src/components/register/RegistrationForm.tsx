@@ -70,7 +70,7 @@ function RegistrationForm(props: UserRegFormPropsInterface) {
    */
   const { isLoaded } = useJsApiLoader({
     // googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_PLACE_API_KEY,
-    googleMapsApiKey: GOOGLE_PLACE_API_KEY,
+    googleMapsApiKey: "GOOGLE_PLACE_API_KEY",
     // libraries,
   });
 
