@@ -13,7 +13,7 @@ import { locationSelection } from '@/utils/helper';
 import { convertISOToReadableTime } from '@/utils/timeFunction';
 
 // Types
-import { UserRoleEnum, StatusEnum, TuitionStyleEnum } from '@/types/enums';
+import { UserRoleEnum, StatusEnum, ETuitionStyle } from '@/types/enums';
 import { CreatedScheduledClassIn, ScheduledclassListPropsInterface, SingleScheduledClassInterface } from '@/types/pages/scheduledclassInterface';
 
 // SOR = student or teacher
@@ -63,7 +63,7 @@ function ScheduledClassList({ scheduledClassList, acceptRequestHandler, rejectRe
               <img src="/icons/view.svg" width="20px" alt="" />
               <p className="tooltip-custom">Class Details</p>
             </Link>
-            {src.types === TuitionStyleEnum.ONLINE && authUserInfo.role === UserRoleEnum.TEACHER && (
+            {src.types === ETuitionStyle.ONLINE && authUserInfo.role === UserRoleEnum.TEACHER && (
               <>
                 <Link href="https://meet.google.com/new" target="_blank" type="button" className="btn btn-success ms-2">
                   Start

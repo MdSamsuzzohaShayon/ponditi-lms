@@ -79,7 +79,6 @@ const loginAdmin = async (req, res, next) => {
       return res.status(406).json({ msg: 'Email and phone both can not be empty' });
     }
 
-    // console.log({userExist});
     if (!userExist) return res.status(404).json({ msg: "User doesn't exist" });
 
     if (userExist.dataValues.role !== ADMIN) {
@@ -98,7 +97,7 @@ const loginAdmin = async (req, res, next) => {
     const token = jwt.sign(userDetailResponse, process.env.JWT_SECRET, {
       expiresIn: '90d',
     });
-    // console.log(cookieOptions);
+
     res.cookie('token', token, cookieOptions);
     userDetailResponse.name = userExist.dataValues.name;
     return res.status(200).json({ msg: 'Logged in successfully', user: userDetailResponse });

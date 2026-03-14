@@ -1,5 +1,5 @@
-@use './_variables' as *;
-@use './_mixins' as *;
+@use './abstracts/variables' as *;
+@use './abstracts/mixins' as *;
 
 // ══════════════════════════════════════════════
 //  HERO SECTION - EXACT same as MainPage
@@ -336,7 +336,7 @@
   height: 12px;
   background: #4caf50;
   border-radius: $radius-circle;
-  border: 2px solid $navy;
+  border: 2px solid $purple;
   animation: pulse 2s infinite;
 }
 
@@ -391,7 +391,7 @@
   position: relative;
   border-radius: $radius-md;
   overflow: hidden;
-  background: rgba($navy-mid, 0.5);
+  background: rgba($purple-pale, 0.5);
   min-height: 200px;
 }
 
@@ -415,7 +415,7 @@
   position: absolute;
   bottom: 20px;
   left: 20px;
-  background: rgba($navy, 0.9);
+  background: rgba($purple, 0.9);
   padding: 0.75rem 1rem;
   border-radius: $radius-sm;
   display: flex;

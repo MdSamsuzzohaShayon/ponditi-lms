@@ -27,7 +27,7 @@ import { useAppSelector, useAppDispatch } from '@/redux/store';
 // types
 import { DetailPropsInterface } from '@/types/pages/userPageInterface';
 import { ClassAndSubjectInterface } from '@/types/pages/searchPageInterface';
-import { TuitionStyleEnum, UserRoleEnum } from '@/types/enums';
+import { ETuitionStyle, UserRoleEnum } from '@/types/enums';
 
 // Components
 import MakeStar from '../elements/MakeStar';
@@ -186,8 +186,8 @@ function Detail({ userDetail, update, search, userId }: DetailPropsInterface) {
     } else {
       classAndSubject.SubjectId = searchParams.SubjectId;
     }
-    let tutionplace: string | null = TuitionStyleEnum.ONLINE;
-    if (searchParams.tutionplace !== '' && searchParams.tutionplace !== TuitionStyleEnum.ANY) {
+    let tutionplace: string | null = ETuitionStyle.ONLINE;
+    if (searchParams.tutionplace !== '' && searchParams.tutionplace !== ETuitionStyle.ANY) {
       tutionplace = searchParams?.tutionplace || null;
     }
     // console.log(classAndSubject);

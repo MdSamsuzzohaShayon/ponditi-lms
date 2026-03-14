@@ -1,228 +1,256 @@
 'use client'
 
-// JavaScript
-/* eslint-disable @next/next/no-img-element */
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import Section1 from '@/components/home/Section1';
-import { fetchAllClassTypes } from '@/redux/reducers/classtypeReducer';
-import { fetchAllSubjects } from '@/redux/reducers/subjectReducer';
-import { fetchAllTuitionms } from '@/redux/reducers/tuitionmReducer';
-import { AppDispatch, useAppDispatch, useAppSelector } from '@/redux/store';
-import { setSearchParams } from '@/redux/reducers/searchReducer';
-import { UserRoleEnum } from '@/types/enums';
-import SearchForm from '../search/SearchForm';
-import styles from '@/styles/HomePage.module.scss';
-import Link from 'next/link';
 
-function MainPage() {
-  let isMounted = true;
+import React, { useState, useCallback, useEffect, useRef } from "react";
+import s from "@/styles/HomePage.module.scss";
+import { categories, filterData, instructors, popularCourses, testimonials } from "@/utils/staticData";
+import { IResponseData } from "@/types";
+import StarBurst from "../svg/StarBurst";
+import CircleRing from "../svg/CircleRing";
+import HeroDecorations from "./HeroDecorations";
+import ImageShowcase from "./ImageShowcase";
+import HeroContent from "./HeroContent";
+import FloatCards from "./FloatCards";
+import StatsBanner from "./StatsBanner";
+import CategoryCard from "./CategoryCard";
+import CourseCard from "./CourseCard";
+import VideoIcon from "../icons/VideoIcon";
+import UsersIcon from "../icons/UsersIcon";
+import ClockIcon from "../icons/ClockIcon";
+import TrophyIcon from "../icons/TrophyIcon";
+import DotsGrid from "../svg/DotsGrid";
+import InstructorCard from "./InstructorCard";
+import TestimonialCard from "./TestimonialCard";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { setSearchParams } from "@/redux/reducers/searchReducer";
+import { fetchAllClassTypes } from "@/redux/reducers/classtypeReducer";
+import { fetchAllSubjects } from "@/redux/reducers/subjectReducer";
+import { fetchAllTuitionms } from "@/redux/reducers/tuitionmReducer";
+
+
+// ─────────────────────────────────────────────
+//  MAIN COMPONENT
+// ─────────────────────────────────────────────
+
+export default function MainPage({ data }: { data: IResponseData }) {
+  const [activeTab, setActiveTab] = useState<'popular' | 'new' | 'top'>('popular');
+
+  let isMounted = useRef<boolean>(true);
 
   const dispatch = useAppDispatch();
 
+  
   const isLoading = useAppSelector((state) => state.elements.isLoading);
   const tuitionmList = useAppSelector((state) => state.tuitionm.tuitionmList);
-  const authUserInfo = useAppSelector(state=> state.user.authUserInfo);
+  const authUserInfo = useAppSelector(state => state.user.authUserInfo);
+
+  const {classTypes, subjects, tuitionms} = data;
 
 
   
-  const [formData, setFormData] = useState({
-    location: "",
-    tutionplace: "ANY",
-    TuitionmId: "0",
-    ClassTypeId: "0",
-    SubjectId: "0",
-  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    // Business logic preserved — add search handler here
-  };
-
-  useEffect(() => {
-    window.localStorage.removeItem('search');
-    (async () => {
-      if (isMounted) {
-        await Promise.all([dispatch(fetchAllClassTypes(null)), dispatch(fetchAllSubjects(null)), dispatch(fetchAllTuitionms(null))]);
-
-        if (tuitionmList.length > 0) {
-          // Get first element
-          const firstTuitionmElement = tuitionmList[0];
-          // SET DEFAULT SEARCH PARAMS
-          dispatch(
-            setSearchParams({
-              // location: '',
-              TuitionmId: tuitionmList[0].id,
-              // ClassTypeId: 0, // id
-              // SubjectId: 0, // id
-            }),
-          );
-        }
-      }
-    })();
-    isMounted = false;
+  const handleTabChange = useCallback((tab: 'popular' | 'new' | 'top') => {
+    setActiveTab(tab);
   }, []);
 
-  {/* ── HERO SECTION ── */}
   return (
+    <div className="w-100">
+      <section className={s.hero}>
+        <div className={s.ambientOrb1} aria-hidden="true" />
+        <div className={s.ambientOrb2} aria-hidden="true" />
 
-      <main>
-        <section className={`py-5 ${styles.hero}`}>
-          {/* Decorative blobs */}
-          <span className={styles.blob1} aria-hidden="true" />
-          <span className={styles.blob2} aria-hidden="true" />
-          <span className={styles.gridOverlay} aria-hidden="true" />
+        <span className={`${s.bgWord} ${s.bgWordCareer}`} aria-hidden="true">career</span>
+        <span className={`${s.bgWord} ${s.bgWordBusiness}`} aria-hidden="true">business</span>
 
-          <div className="container position-relative">
-            <div className="row align-items-center g-5">
+        <HeroDecorations s={s} />
+        <ImageShowcase s={s} />
 
-              {/* ── LEFT: Copy + Search Form ── */}
-              <div className="col-12 col-md-6">
-                <div className={styles.badge}>🇧🇩 Bangladesh&apos;s #1 Tutor Marketplace</div>
-
-                <h1 className={styles.headline}>
-                  First Ever{" "}
-                  <span className={styles.highlight}>Hourly-Paid</span>
-                  <br />Tutoring Platform
-                  <br />in Bangladesh
-                </h1>
-
-                <p className={styles.subtext}>
-                  Hire your desired tutor, learn anything in your schedule &amp; location, and pay hourly.
-                </p>
-
-                {/* ── SEARCH CARD ── */}
-                <div className={`${styles.searchCard} shadow-lg`}>
-                  <p className={styles.searchTitle}>Find Your Tutor</p>
-                  <form onSubmit={handleSubmit}>
-                    <div className="row g-3 mb-3">
-                      <div className="col-12">
-                        <label htmlFor="location" className={styles.label}>
-                          📍 Location
-                        </label>
-                        <input
-                          className={`form-control ${styles.input}`}
-                          id="location"
-                          placeholder="Enter your location…"
-                          type="text"
-                          value={formData.location}
-                          name="location"
-                          autoComplete="off"
-                          onChange={handleChange}
-                        />
-                      </div>
-
-                      <div className="col-6">
-                        <label htmlFor="tutionplace" className={styles.label}>
-                          🎓 Tuition Style
-                        </label>
-                        <select
-                          name="tutionplace"
-                          id="tutionplace"
-                          className={`form-select ${styles.input}`}
-                          value={formData.tutionplace}
-                          onChange={handleChange}
-                        >
-                          <option value="ANY">Any Style</option>
-                          <option value="ONLINE">Online</option>
-                          <option value="TL">Teacher&apos;s Location</option>
-                          <option value="SL">Student&apos;s Location</option>
-                        </select>
-                      </div>
-
-                      <div className="col-6">
-                        <label htmlFor="TuitionmId" className={styles.label}>
-                          📚 Medium
-                        </label>
-                        <select
-                          name="TuitionmId"
-                          id="TuitionmId"
-                          className={`form-select ${styles.input}`}
-                          value={formData.TuitionmId}
-                          onChange={handleChange}
-                        >
-                          <option value="0" disabled>Select medium*</option>
-                        </select>
-                      </div>
-
-                      <div className="col-6">
-                        <label htmlFor="ClassTypeId" className={styles.label}>
-                          🏫 Class
-                        </label>
-                        <select
-                          name="ClassTypeId"
-                          id="ClassTypeId"
-                          className={`form-select ${styles.input}`}
-                          value={formData.ClassTypeId}
-                          onChange={handleChange}
-                        >
-                          <option value="0" disabled>Select class*</option>
-                        </select>
-                      </div>
-
-                      <div className="col-6">
-                        <label htmlFor="SubjectId" className={styles.label}>
-                          🔬 Subject
-                        </label>
-                        <select
-                          name="SubjectId"
-                          id="SubjectId"
-                          className={`form-select ${styles.input}`}
-                          value={formData.SubjectId}
-                          onChange={handleChange}
-                        >
-                          <option value="0" disabled>Select subject*</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="d-flex justify-content-end">
-                      <button
-                        className={`btn ${styles.searchBtn}`}
-                        type="submit"
-                      >
-                        Search Tutor →
-                      </button>
-                    </div>
-                  </form>
-                </div>
-
-                {/* Trust badges */}
-                <div className={`d-flex gap-3 mt-4 flex-wrap ${styles.trustRow}`}>
-                  <span className={styles.trustBadge}>✅ 500+ Tutors</span>
-                  <span className={styles.trustBadge}>⭐ 4.8 Rating</span>
-                  <span className={styles.trustBadge}>💳 Pay Per Hour</span>
-                </div>
-              </div>
-
-              {/* ── RIGHT: Illustration ── */}
-              <div className={`col-md-6 d-none d-md-flex justify-content-center ${styles.illustrationWrap}`}>
-                <div className={styles.illustrationCard}>
-                  <img
-                    src="/shape/learner.svg"
-                    alt="Learner illustration"
-                    className={styles.illustration}
-                  />
-                  {/* Floating accent cards */}
-                  <div className={`${styles.floatCard} ${styles.floatCard1}`}>
-                    <span>📖</span> 1,200+ sessions today
-                  </div>
-                  <div className={`${styles.floatCard} ${styles.floatCard2}`}>
-                    <span>🕐</span> Book in minutes
-                  </div>
-                </div>
-              </div>
-
+        <div className="container-xl px-4 px-lg-5 w-100 h-100" style={{ position: "relative", zIndex: 4 }}>
+          <div className={`row ${s.heroRow}`}>
+            <div className="col-12 col-lg-6 col-xl-5 d-flex align-items-center">
+              <HeroContent classTypes={classTypes} subjects={subjects} tuitionms={tuitionms} s={s} />
             </div>
           </div>
-        </section>
-      </main>
+        </div>
 
+        <FloatCards s={s} />
+      </section>
+
+      <StatsBanner s={s} />
+
+      <section className={s.categoriesSection}>
+        <div className="container-xl px-4 px-lg-5">
+          <div className="text-center mb-5">
+            <span className={s.sectionBadge}>EXPLORE TOPICS</span>
+            <h2 className={s.sectionTitle}>Browse by <span className="text-gradient">Category</span></h2>
+            <p className={s.sectionSubtitle}>Discover courses tailored to your interests and goals</p>
+          </div>
+
+          <div className="row g-4">
+            {categories.map((cat, i) => (
+              <div key={i} className="col-6 col-md-4 col-lg-2">
+                <CategoryCard {...cat} s={s} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={s.coursesSection}>
+        <div className="container-xl px-4 px-lg-5">
+          <div className="d-flex flex-wrap align-items-center justify-content-between mb-5">
+            <div>
+              <span className={s.sectionBadge}>LEARN & GROW</span>
+              <h2 className={s.sectionTitle}>Popular <span className="text-gradient">Courses</span></h2>
+            </div>
+            <div className="d-flex gap-2">
+              {(['popular', 'new', 'top'] as const).map(tab => (
+                <button
+                  key={tab}
+                  className={`${s.tabButton} ${activeTab === tab ? s.tabButtonActive : ''}`}
+                  onClick={() => handleTabChange(tab)}
+                >
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="row g-4">
+            {popularCourses.map((course, i) => (
+              <div key={i} className="col-12 col-md-6 col-lg-3">
+                <CourseCard {...course} s={s} />
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-5">
+            <a href="#" className={s.viewAllBtn}>
+              View All Courses
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="3" y1="8" x2="13" y2="8" />
+                <polyline points="9,4 13,8 9,12" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section className={s.featuresSection}>
+        <div className="container-xl px-4 px-lg-5">
+          <div className="row align-items-center">
+            <div className="col-lg-6 mb-5 mb-lg-0">
+              <span className={s.sectionBadge}>WHY EDUCAMB</span>
+              <h2 className={s.sectionTitle}>Transform Your Learning <span className="text-gradient">Experience</span></h2>
+              <p className={s.sectionSubtitle}>We combine expert instruction with personalized attention to help you achieve your goals.</p>
+
+              <div className="row g-4 mt-4">
+                <div className="col-6">
+                  <div className={s.featureItem}>
+                    <div className={s.featureIcon}><VideoIcon /></div>
+                    <h5>Live Sessions</h5>
+                    <p>Interactive classes with real-time feedback</p>
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className={s.featureItem}>
+                    <div className={s.featureIcon}><UsersIcon /></div>
+                    <h5>Small Groups</h5>
+                    <p>Maximum 5 students per batch</p>
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className={s.featureItem}>
+                    <div className={s.featureIcon}><ClockIcon /></div>
+                    <h5>Flexible Timing</h5>
+                    <p>Schedule classes at your convenience</p>
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className={s.featureItem}>
+                    <div className={s.featureIcon}><TrophyIcon /></div>
+                    <h5>Certification</h5>
+                    <p>Get recognized certificates</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-lg-6">
+              <div className={s.featuresImageWrapper}>
+                <img
+                  src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&auto=format"
+                  alt="Students learning"
+                  className={s.featuresImage}
+                  loading="lazy"
+                />
+                <div className={s.featuresDeco1}><CircleRing size={120} color="#3EC878" strokeWidth={2} /></div>
+                <div className={s.featuresDeco2}><DotsGrid color="#4A3D8F" cols={4} rows={4} /></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className={s.instructorsSection}>
+        <div className="container-xl px-4 px-lg-5">
+          <div className="text-center mb-5">
+            <span className={s.sectionBadge}>EXPERT TEACHERS</span>
+            <h2 className={s.sectionTitle}>Meet Our <span className="text-gradient">Instructors</span></h2>
+            <p className={s.sectionSubtitle}>Learn from industry experts and passionate educators</p>
+          </div>
+
+          <div className="row g-4">
+            {instructors.map((instructor, i) => (
+              <div key={i} className="col-12 col-md-6 col-lg-3">
+                <InstructorCard {...instructor} s={s} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={s.testimonialsSection}>
+        <div className="container-xl px-4 px-lg-5">
+          <div className="text-center mb-5">
+            <span className={s.sectionBadge}>STUDENT SUCCESS</span>
+            <h2 className={s.sectionTitle}>What Our <span className="text-gradient">Students Say</span></h2>
+          </div>
+
+          <div className="row g-4">
+            {testimonials.map((testimonial, i) => (
+              <div key={i} className="col-12 col-md-4">
+                <TestimonialCard {...testimonial} s={s} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={s.ctaSection}>
+        <div className="container-xl px-4 px-lg-5">
+          <div className={s.ctaBanner}>
+            <div className="row align-items-center">
+              <div className="col-lg-8">
+                <h3 className={s.ctaTitle}>Ready to Start Your Learning Journey?</h3>
+                <p className={s.ctaText}>Join thousands of students who are already learning with Ponditi</p>
+              </div>
+              <div className="col-lg-4 text-lg-end">
+                <a href="#" className={s.ctaButton}>
+                  Get Started Now
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="3" y1="9" x2="15" y2="9" />
+                    <polyline points="11,5 15,9 11,13" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div className={s.ctaDeco1}><StarBurst size={40} color="rgba(255,255,255,0.2)" /></div>
+            <div className={s.ctaDeco2}><CircleRing size={80} color="rgba(255,255,255,0.1)" dashed /></div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
-
-export default MainPage;

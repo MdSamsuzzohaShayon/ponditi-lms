@@ -36,7 +36,7 @@ function PersonalInformationForm({ nidInputEl, inputChangeHandler }) {
    */
   const { isLoaded } = useJsApiLoader({
     // googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_PLACE_API_KEY,
-    googleMapsApiKey: GOOGLE_PLACE_API_KEY,
+    googleMapsApiKey: "GOOGLE_PLACE_API_KEY",
     // libraries, // temp
   });
   const [autocomplete, setAutocomplete] = useState(null);

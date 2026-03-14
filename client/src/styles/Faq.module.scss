@@ -1,5 +1,5 @@
-@use './_variables' as *;
-@use './_mixins' as *;
+@use './abstracts/variables' as *;
+@use './abstracts/mixins' as *;
 
 // ══════════════════════════════════════════════
 //  HERO SECTION - EXACT same as MainPage

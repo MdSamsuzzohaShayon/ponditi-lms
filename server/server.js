@@ -51,18 +51,18 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use('/docs', swaggerUi.serve, swaggerUi.setup(outputFile));
 
 
-app.get('/api', (req, res) => {
-  res.send('Hello World');
-  // res.status(200).json({ msg: 'Server is working', env: process.env });
-});
 
 /**
  * @api endpoints for restAPI
  * ===================================================================
- */
+*/
+app.get('/api', (req, res) => {
+  res.send('Hello World');
+  // res.status(200).json({ msg: 'Server is working', env: process.env });
+});
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(outputFile));
 app.use('/api/user', userRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/search', searchRoutes);
@@ -80,13 +80,22 @@ app.use('/api/message', messageRoutes);
 io.on('connection', socketRoutes);
 
 const PORT = process.env.PORT || 9000;
+
 httpServer.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });
 
-// IF THERE ARE NO TABLE THIS WILL CREATE - do no make it force true
-// db.sequelize.sync({ alter: true, force: true }).then(() => {
-//   httpServer.listen(PORT, () => {
-//     console.log(`Server is running on ${PORT}`);
-//   });
-// });
+/*
+if (process.env.FORCE_DB_SYNC === 'true') {
+  console.log('⚠️ Running force DB sync...');
+  db.sequelize.sync({ alter: true, force: true }).then(() => {
+    httpServer.listen(PORT, () => {
+      console.log(`Server is running on ${PORT} with FORCE_DB_SYNC`);
+    });
+  });
+} else {
+  httpServer.listen(PORT, () => {
+    console.log(`Server is running on ${PORT}`);
+  });
+}
+*/

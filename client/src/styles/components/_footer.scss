@@ -1,0 +1,153 @@
+@use './abstracts/variables' as *;
+
+
+// ═══════════════════════════════════════════════
+//  FOOTER
+// ═══════════════════════════════════════════════
+.footer {
+    background: $dark;
+    padding: 60px 0 30px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, $purple, $green, transparent);
+    }
+  }
+  
+  .footerBrand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: white;
+  }
+  
+  .footerText {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.7;
+    margin-bottom: 25px;
+  }
+  
+  .socialLink {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 600;
+  
+    &:hover {
+      background: $green;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(62,200,120,0.3);
+    }
+  }
+  
+  .footerTitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: white;
+  }
+  
+  .footerLinks {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  
+    li {
+      margin-bottom: 12px;
+    }
+  
+    a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+  
+      &:hover {
+        color: $green;
+        padding-left: 5px;
+      }
+    }
+  }
+  
+  .newsletterForm {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .newsletterInput {
+    flex: 1;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    color: white;
+    font-size: 0.95rem;
+  
+    &::placeholder {
+      color: rgba(255,255,255,0.4);
+    }
+  
+    &:focus {
+      outline: none;
+      border-color: $green;
+      background: rgba(255,255,255,0.15);
+    }
+  }
+  
+  .newsletterButton {
+    padding: 12px 20px;
+    background: $green;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  
+    &:hover {
+      background: $green-dark;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(62,200,120,0.3);
+    }
+  }
+  
+  .footerBottom {
+    margin-top: 60px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.5);
+  
+    a {
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+  
+      &:hover {
+        color: $green;
+      }
+    }
+  }
+  

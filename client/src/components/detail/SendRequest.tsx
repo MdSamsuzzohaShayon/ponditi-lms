@@ -25,7 +25,7 @@ import { GOOGLE_PLACE_API_KEY, libraries } from '@/config/keys';
 import axios from '@/config/axios';
 
 // Types
-import { TuitionStyleEnum, TimeAMPMEnum } from '@/types/enums';
+import { ETuitionStyle, TimeAMPMEnum } from '@/types/enums';
 import { SlotInterface, FetchedScheduledClassInterface } from '@/types/redux/scheduledclassInterface';
 import { ClassTypeInterface } from '@/types/redux/SubjectClassTuitionmInterface';
 import { formatAsDate, formatDate } from '@/utils/timeFunction';
@@ -38,7 +38,7 @@ function SendRequest() {
    */
   const { isLoaded } = useJsApiLoader({
     // googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_PLACE_API_KEY,
-    googleMapsApiKey: GOOGLE_PLACE_API_KEY,
+    googleMapsApiKey: "GOOGLE_PLACE_API_KEY",
     // libraries,
   });
 
@@ -96,7 +96,7 @@ function SendRequest() {
 
   const tuitionStyleChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     e.preventDefault();
-    if (e.target.value === TuitionStyleEnum.SL) {
+    if (e.target.value === ETuitionStyle.SL) {
       dispatch(setInitializeSchedule({ [e.target.name]: e.target.value, tuitionlocation: selectedSearchUser.presentaddress }));
     } else {
       dispatch(setInitializeSchedule({ [e.target.name]: e.target.value }));
@@ -183,7 +183,7 @@ function SendRequest() {
       errList.push('You must select a tution place');
     }
 
-    if (newObj.tutionplace === TuitionStyleEnum.SL && newObj.tuitionlocation === '') {
+    if (newObj.tutionplace === ETuitionStyle.SL && newObj.tuitionlocation === '') {
       errList.push('You must put a location');
     }
     // console.log(startDateTime.toISOString());
@@ -384,7 +384,7 @@ function SendRequest() {
             </select>
           </div>
         </div>
-        {initializeSchedule.tutionplace === TuitionStyleEnum.SL && (
+        {initializeSchedule.tutionplace === ETuitionStyle.SL && (
           <div className="row mb-3">
             <div className="col-md-12">
               <label htmlFor="tuitionlocation">Address</label>

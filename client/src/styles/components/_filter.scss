@@ -1,0 +1,251 @@
+// Shared filter components styles used across pages
+@use '../abstracts/variables' as *;
+@use '../abstracts//keyframes' as *;
+
+// Filter Bar Components
+.filterBar {
+    position: relative;
+    z-index: 10;
+    background: white;
+    border-radius: 24px;
+    padding: 22px 26px;
+    box-shadow: 0 20px 70px rgba(74, 61, 143, 0.14), 0 4px 16px rgba(74, 61, 143, 0.06);
+    border: 1.5px solid rgba(74, 61, 143, 0.07);
+}
+
+.filterLabel {
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: $mid;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    &::before {
+        content: '';
+        display: block;
+        width: 24px;
+        height: 3px;
+        background: linear-gradient(to right, $green, $purple);
+        border-radius: 3px;
+    }
+}
+
+.filterRow {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+// Filter Select Components
+.filterSelect {
+    position: relative;
+    min-width: 130px;
+    flex: 1 1 130px;
+}
+
+.filterBtn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: $light;
+    border: 1.5px solid transparent;
+    border-radius: 12px;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    color: $mid;
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-weight: 500;
+    transition: all 0.2s;
+
+    &:hover {
+        border-color: rgba(74, 61, 143, 0.2);
+        background: white;
+        color: $dark;
+    }
+}
+
+.filterBtnActive {
+    border-color: $purple !important;
+    background: white !important;
+    color: $dark !important;
+    font-weight: 700 !important;
+    box-shadow: 0 0 0 3px $purple-pale;
+}
+
+.filterBtnText {
+    flex: 1;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.filterChevron {
+    color: $mid;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+}
+
+.filterChevronOpen {
+    transform: rotate(180deg) !important;
+}
+
+.filterDropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    z-index: 999;
+    background: white;
+    border: 1.5px solid rgba(74, 61, 143, 0.1);
+    border-radius: 14px;
+    box-shadow: 0 12px 40px rgba(74, 61, 143, 0.18);
+    overflow: hidden;
+    animation: fadeUp 0.15s ease both;
+}
+
+.filterOption {
+    padding: 10px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    color: $dark;
+    font-weight: 500;
+    transition: background 0.15s;
+
+    &:hover {
+        background: $light;
+        color: $purple;
+    }
+}
+
+.filterOptionSelected {
+    background: $purple-pale !important;
+    color: $purple !important;
+    font-weight: 700 !important;
+}
+
+// Search Button
+.searchBtn {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    background: linear-gradient(135deg, $green-dark, $green);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 11px 22px;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: 'Cabinet Grotesk', sans-serif;
+    letter-spacing: 0.3px;
+    box-shadow: 0 6px 20px rgba(37, 168, 90, 0.35);
+    transition: transform 0.2s, box-shadow 0.2s;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(37, 168, 90, 0.45);
+    }
+}
+
+// Location Autocomplete Styles
+.filterBtnWrapper {
+    position: relative;
+    width: 100%;
+}
+
+.locationAutocomplete {
+    width: 100%;
+
+    // :global {
+    //     .geoapify-autocomplete-input {
+    //         width: 100%;
+    //         padding-right: 40px !important;
+    //     }
+
+    //     .geoapify-autocomplete-items {
+    //         border: 1.5px solid rgba(74, 61, 143, 0.1) !important;
+    //         border-radius: 14px !important;
+    //         box-shadow: 0 12px 40px rgba(74, 61, 143, 0.18) !important;
+    //         overflow: hidden !important;
+    //         margin-top: 8px !important;
+    //         background: white !important;
+    //         font-family: 'Cabinet Grotesk', sans-serif !important;
+    //     }
+
+    //     .geoapify-autocomplete-item {
+    //         padding: 10px 16px !important;
+    //         font-size: 13px !important;
+    //         cursor: pointer !important;
+    //         color: #1A1A2B !important;
+    //         font-weight: 500 !important;
+    //         transition: background 0.15s !important;
+    //         border-bottom: 1px solid rgba(74, 61, 143, 0.06) !important;
+
+    //         &:hover {
+    //             background: #F8F7FF !important;
+    //             color: #4A3D8F !important;
+    //         }
+
+    //         &.selected {
+    //             background: #EEEAFF !important;
+    //             color: #4A3D8F !important;
+    //             font-weight: 700 !important;
+    //         }
+    //     }
+
+    //     .geoapify-close-button {
+    //         display: none !important;
+    //     }
+    // }
+}
+
+.locationClearBtn {
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #999;
+    z-index: 2;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 0;
+
+    &:hover {
+        color: #4A3D8F;
+        background: #F0F0F0;
+    }
+}
+
+// Responsive
+@media (max-width: 768px) {
+    .filterRow {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filterSelect {
+        width: 100%;
+    }
+
+    .searchBtn {
+        width: 100%;
+        justify-content: center;
+    }
+}

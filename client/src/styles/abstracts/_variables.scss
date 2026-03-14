@@ -1,0 +1,57 @@
+// ═════════════════════════════════════════════════════════
+//  GLOBAL VARIABLES
+//  Use @use './variables' as * to import
+// ═════════════════════════════════════════════════════════
+// ─────────────────────────────────────────
+// Color Variables
+// ─────────────────────────────────────────
+
+$purple:        #4A3D8F;
+$purple-light:  #6355B5;
+$purple-pale:   #EEE9FF;
+$purple-deep:   #2D2460;
+
+$green:         #3EC878;
+$green-dark:    #25A85A;
+$green-pale:    #E6FAF0;
+
+$dark:          #120F2E;
+$mid:           #7B72AA;
+
+$light:         #F7F5FF;
+$white:         #FFFFFF;
+
+$gold:          #F5C842;
+
+
+
+// Temp
+$font-body: 'Cabinet Grotesk', sans-serif;
+$radius-circle: 15px;
+$border: $purple-light;
+$font-xs: 0.8 rem;
+$font-xl: 1.5rem;
+$weight-medium: 500;
+$weight-black: 700;
+$radius-full: 100%;
+$transition-slowest: 1s;
+$font-display: 'Cabinet Grotesk', sans-serif;
+$red-light: $gold;
+$red: $green;
+$red-dark: $green-dark;
+$text-muted: $purple-deep;
+$font-md: 1rem;
+$radius-lg: 40px;
+$shadow-lg: 1 1 $white;
+$font-lg: 2rem;
+$weight-bold: 600;
+$font-sm: 1rem;
+$weight-semibold: 500;
+$border-light: $light;
+$radius-sm: 20px;
+$font-base: 0.6rem;
+$transition-base: 10;
+$shadow-md: 1 1 $white;
+$shadow-hover: 1 1 $white;
+$radius-md: 20px;
+$border-hover: $purple;

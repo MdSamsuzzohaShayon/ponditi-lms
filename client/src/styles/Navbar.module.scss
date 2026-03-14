@@ -1,0 +1,118 @@
+@use './abstracts/_variables' as *;
+
+
+
+// ═══════════════════════════════════════════════
+//  NAVBAR
+// ═══════════════════════════════════════════════
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 18px 0;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.navScrolled {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 2px 32px rgba(74, 61, 143, 0.1);
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(74, 61, 143, 0.06);
+}
+
+.navBrand {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: 1.35rem;
+  color: $dark !important;
+  text-decoration: none;
+  letter-spacing: -0.3px;
+}
+
+.navLinks { gap: 4px; }
+
+.navLink {
+  font-size: 14px;
+  font-weight: 500;
+  color: $mid !important;
+  text-decoration: none;
+  padding: 7px 14px;
+  border-radius: 10px;
+  transition: color 0.2s, background 0.2s;
+  letter-spacing: 0.1px;
+
+  &:hover {
+    color: $purple !important;
+    background: $purple-pale;
+  }
+}
+
+.navLinkActive {
+  color: $purple !important;
+  font-weight: 700;
+  background: $purple-pale;
+}
+
+.chevron {
+  font-size: 9px;
+  opacity: 0.6;
+}
+
+.navAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2.5px solid $green;
+  box-shadow: 0 2px 12px rgba(62, 200, 120, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: scale(1.08);
+    box-shadow: 0 4px 18px rgba(62, 200, 120, 0.45);
+  }
+}
+
+.menuLines {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+
+  span {
+    display: block;
+    width: 22px;
+    height: 2.5px;
+    background: $purple;
+    border-radius: 2px;
+    transition: 0.3s;
+
+    &:last-child { width: 15px; }
+  }
+
+  &:hover span { background: $green; }
+}
+
+.navReg {
+  font-size: 13px;
+  font-weight: 700;
+  color: $purple !important;
+  text-decoration: none;
+  padding: 9px 18px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(74, 61, 143, 0.2);
+  background: white;
+  transition: all 0.25s;
+  letter-spacing: 0.2px;
+
+  &:hover {
+    background: $purple;
+    color: white !important;
+    border-color: $purple;
+    box-shadow: 0 6px 20px rgba(74, 61, 143, 0.3);
+    transform: translateY(-1px);
+  }
+}

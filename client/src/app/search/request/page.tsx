@@ -18,7 +18,7 @@ import Loader from '@/components/elements/Loader';
 
 
 // Types
-import { TuitionStyleEnum, UserRoleEnum } from '@/types/enums';
+import { ETuitionStyle, UserRoleEnum } from '@/types/enums';
 import { ScheduledClassInterface } from '@/types/redux/scheduledclassInterface';
 import { useRouter } from 'next/navigation';
 
@@ -75,13 +75,13 @@ function RequestIndex() {
         };
 
         // Settuition location
-        if (initializeSchedule.tutionplace === TuitionStyleEnum.ONLINE || initializeSchedule.tutionplace === TuitionStyleEnum.ANY) {
-          scheduledClassObj.tuitionlocation = TuitionStyleEnum.ONLINE;
+        if (initializeSchedule.tutionplace === ETuitionStyle.ONLINE || initializeSchedule.tutionplace === ETuitionStyle.ANY) {
+          scheduledClassObj.tuitionlocation = ETuitionStyle.ONLINE;
           // FOR TEACHER'S LOCATION
-        } else if (initializeSchedule.tutionplace === TuitionStyleEnum.TL) {
+        } else if (initializeSchedule.tutionplace === ETuitionStyle.TL) {
           scheduledClassObj.tuitionlocation = selectedUser.presentaddress;
           // fOR STUDENT'S LOCATION
-        } else if (initializeSchedule.tutionplace === TuitionStyleEnum.SL) {
+        } else if (initializeSchedule.tutionplace === ETuitionStyle.SL) {
           let placeWithoutLngLat = currentUser.presentaddress;
           if (placeWithoutLngLat.includes('(')) {
             // eslint-disable-next-line prefer-destructuring
