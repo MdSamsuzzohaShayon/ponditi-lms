@@ -1,3 +1,5 @@
+'use client'
+
 import { memo } from "react";
 import QuoteIcon from "../icons/QuoteIcon";
 import StarIcon from "../icons/StarIcon";

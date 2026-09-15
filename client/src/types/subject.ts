@@ -7,3 +7,8 @@ export interface ISubject{
     updatedAt: string;
     ClassTypes?: IClassType[];
 }
+
+
+export interface ISubjectsResponse {
+  subjects: ISubject[];
+}

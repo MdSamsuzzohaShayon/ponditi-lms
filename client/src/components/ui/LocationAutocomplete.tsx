@@ -1,3 +1,5 @@
+'use client'
+
 // components/LocationAutocomplete.tsx
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { GeocoderAutocomplete } from '@geoapify/geocoder-autocomplete';
