@@ -124,3 +124,12 @@ Other notable files:
 * Always run **migrations before seeding** to avoid errors.
 * Check your `Customer` table for missing columns before seeding.
 * Keep API docs updated whenever new endpoints are added.
+
+
+
+## To do
+
+ - Design everything beautifuly
+ - Update README.md
+ - Add automated tests
+ - Deploy the website
