@@ -1,3 +1,5 @@
+'use client'
+
 // components/search/FilterSelect.tsx
 import { JSX, memo, useCallback, useEffect, useRef, useState } from "react";
 import ChevronDown from "../icons/ChevronDown";

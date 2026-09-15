@@ -1,444 +1,811 @@
 # Ponditi
- 
- - Compititors - __https://bdtutors.com/__
 
- - [Tuotial](https://www.youtube.com/watch?v=BiN-xzNkH_0)
-### Technologies
- - Testing (jest)
- - Database
- - Backend (Node.js nest.js)
- - Eslint (Clean coding)
- - Typescript
+Ponditi is an online tuition management platform that connects learners with teachers and manages the complete tuition lifecycle — from teacher discovery and tuition requests to scheduling, real-time communication, class completion, payments, notifications, and reviews.
+
+The project is built as a full-stack TypeScript/JavaScript application with a Next.js frontend and Node.js/Express backend.
+
+## Features
+
+### Learner
+
+* Search and filter teachers
+* Search by subject, class, medium, location, and tuition type
+* View teacher profiles
+* Send tuition requests
+* Select available time slots
+* View request history
+* Communicate with teachers through real-time chat
+* Receive notifications
+* View scheduled classes
+* Provide feedback and reviews
+* Manage profile and educational information
+* Update personal information
+* Change password
+
+### Teacher
+
+* Create and manage teacher profiles
+* Add educational qualifications
+* Add teaching subjects and class types
+* Configure hourly tuition rates
+* Configure rates based on tuition type
+* Set availability status
+* Receive and manage tuition requests
+* Accept or reject requests
+* Start and finish scheduled classes
+* Track class duration
+* Mark tuition payments as received
+* Communicate with learners through real-time chat
+* Block users when necessary
+* Receive notifications
+* Manage profile information
+
+### Admin
+
+* Manage users
+* Verify teacher profiles
+* Approve or reject users
+* Manage classes and subjects
+* Search users by ID, name, and phone number
+* View user counts
+* Receive notifications for expired tasks
+* Manage platform data
+* Seed development data
+
+### Real-Time Communication
+
+* Socket.IO-based real-time chat
+* Room-based communication
+* User-to-user messaging
+* Message notifications
+* Chat availability based on tuition status
+* Ability to initiate communication during the tuition workflow
+
+### Tuition Management
+
+The tuition workflow supports:
+
+```text
+Teacher Discovery
+       ↓
+Tuition Request
+       ↓
+Slot Selection
+       ↓
+Request Approval
+       ↓
+Scheduled Class
+       ↓
+Class Started
+       ↓
+Duration Tracking
+       ↓
+Class Completed
+       ↓
+Payment
+       ↓
+Review / Feedback
+```
+
+## Technology Stack
+
+### Frontend
+
+* Next.js 16
+* React 19
+* TypeScript
+* Redux Toolkit
+* React Redux
+* Axios
+* Socket.IO Client
+* Bootstrap
+* Sass
+* Google Maps API
+* Geoapify Geocoder
+
+### Backend
+
+* Node.js
+* Express 5
+* JavaScript
+* Sequelize ORM
+* Socket.IO
+* JWT authentication
+* Cookie-based authentication
+* Express Validator
+* Nodemailer
+* Swagger
+* Multer
+* Sharp
+
+### Databases
+
+The backend has supported multiple database configurations during development:
+
+* SQLite — local development
+* Microsoft SQL Server — previous deployment/development environment
+* MySQL — supported through Sequelize
+
+### Infrastructure
+
+* Docker
+* Docker Compose
+* Nginx
+* AWS S3
+* GitHub Actions
+* Cloud/server deployment
+
+### Development Tools
+
+* ESLint
+* Prettier
+* Jest / testing
+* Sequelize CLI
+* Nodemon
+* Swagger
+
+---
+
+# Architecture
+
+Ponditi follows a separated frontend/backend architecture.
+
+```text
+                    ┌──────────────────────┐
+                    │       Client         │
+                    │   Next.js + React    │
+                    └──────────┬───────────┘
+                               │
+                         HTTP / WebSocket
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │       Server         │
+                    │   Node.js + Express  │
+                    └──────────┬───────────┘
+                               │
+              ┌────────────────┼────────────────┐
+              │                │                │
+              ▼                ▼                ▼
+          Database         Socket.IO         AWS S3
+          Sequelize        Real-time          Images
+```
+
+The frontend and backend are maintained as separate applications inside the repository.
+
+---
+
+# Repository Structure
+
+```text
+ponditi-lms/
+├── client/
+│   ├── public/
+│   ├── src/
+│   ├── next.config.ts
+│   ├── package.json
+│   └── tsconfig.json
+│
+├── server/
+│   ├── config/
+│   ├── controllers/
+│   ├── database/
+│   ├── middleware/
+│   ├── migrations/
+│   ├── models/
+│   ├── routes/
+│   ├── seeders/
+│   ├── socket/
+│   ├── uploads/
+│   ├── utils/
+│   ├── server.js
+│   ├── package.json
+│   └── .env.example
+│
+├── nginx/
+├── secrets/
+├── .github/
+├── docker-compose.yml
+├── docker-compose.dev.yml
+├── deploy.sh
+└── README.md
+```
+
+---
+
+# Requirements
+
+Before running the project locally, install:
+
+* Node.js
+* npm
+* Git
+* Docker and Docker Compose (optional)
+* A supported database depending on the selected configuration
+
+Check your versions:
+
+```bash
+node --version
+npm --version
+git --version
+```
+
+---
+
+# Getting Started
+
+## 1. Clone the repository
+
+```bash
+git clone <repository-url>
+cd ponditi-lms
+```
+
+## 2. Install frontend dependencies
+
+```bash
+cd client
+npm install
+```
+
+## 3. Install backend dependencies
+
+```bash
+cd ../server
+npm install
+```
+
+## 4. Configure environment variables
+
+Create a `.env` file inside the `server` directory:
+
+```bash
+cd server
+cp .env.example .env
+```
+
+Configure the required environment variables according to your local environment.
+
+Example:
+
+```env
+# Database
+DB_USER=admin
+DB_PASSWORD=local_dev_password
+DB_NAME=ponditi
+DB_HOST=localhost
+DB_PORT=5432
+DB_DIALECT=sqlite
+DB_STORAGE=./database.sqlite
+
+# Authentication
+JWT_SECRET=change-this-in-development
+
+# Frontend
+FRONTEND_URL=http://localhost:3000
+```
+
+> Never commit production credentials, JWT secrets, AWS credentials, email passwords, or other sensitive values to Git.
+
+---
+
+# Running the Application
+
+The frontend and backend run independently.
+
+## Start the backend
+
+```bash
+cd server
+npm run dev
+```
+
+The backend will start using the development configuration.
+
+## Start the frontend
+
+Open another terminal:
+
+```bash
+cd client
+npm run dev
+```
+
+The Next.js development server will start locally.
+
+---
+
+# Backend Scripts
+
+Available backend commands:
+
+```bash
+npm run dev
+npm start
+npm run migrate
+npm run migrate:undo
+npm run seeder
+npm run swagger-autogen
+npm run update
+```
 
 ### Development
- - [next js typescript](https://nextjs.org/learn/excel/typescript)
- - [tsconfig](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)
- - Eslint setup now install `npm install --save-dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-config-prettier eslint-plugin-prettier prettier`
- - A room that will have two users with room status
- - Server and client will have seperated cookie for login
- 1. Teachers will not be able to chat before student write anything
- 2. Chat will be closed after completing the tuition
- 3. Change the label "student" to "Learner" everywhere in the website. There should be no "Student" label.
- 4. Teacher will not be able to change the tuition request page until he change the status of expired tuition schedule.
- 5. Admin panel will get the notification of expired task.
- 6. Change the browser tab title
- 7. Total count and search option(id,name,phone no) in Admin panel.
- 8. Google search index for ponditi.com
- 9. Compress profile photo
 
-### Typescript
- - [socket io typescript](https://socket.io/docs/v4/typescript/)
- - [Deals with cookie and socket io](https://socket.io/how-to/deal-with-cookies)
- - [redux toolkit typescript](https://redux-toolkit.js.org/usage/usage-with-typescript), [tutorial](https://redux-toolkit.js.org/tutorials/typescript)
- 
+```bash
+npm run dev
+```
 
- - **Requirement update-2**
- - Reset all targeted value after making request and mounting a component
- - **Register user**
-   - ✅ Only digit for OTP Code 
-   - Verify user profile by **admin** (Until they are verified they will be unlisted from search) 
-   - ✅ Next button to the right 
-   - ✅ Use bulk sms bd for sending messages 
- - **Send request**
-   - ✅ Detail of teacher (Any one can see techer detail), Send request visible only if he is logged in as student 
-   - ✅ After filtering by default they will select subjects and class (By default no available class and subjects) 
-   - ✅ No duration or estimated bill - only hourly rate 
-   - ✅ Select slot (8 to 10) 
- - **Update profile**
-   1. Educational qualification
-      - ✅ Exam name (SSC / HSC / )  
-      - ✅ Institution 
-      - ✅ Group (Science, Arts, & commerce) 
-      - ✅ Result  
-      - ✅ Passing Year  
-   2. Personal Detail 
-      - Picture (Later)
-      - ✅ Name  
-      - ✅ Email  
-      - ✅ District  
-      - Present Address (Used to search ) 
-   3. Tution Detail 
-      - ✅ Rate per hour  
-      - ✅ Status (Currenty available to request or not ) 
-      - Tution place multile selection 
-   4. Subjects
-      - ✅ Tution subjects 
-      - ✅ Tution class types 
- - **Scheduled Class detail**
-   - ✅ No bill and duration 
-   - ✅ Detail location of student 
-   - ✅ Institution name 
-   - ✅ Scheduled time 
-   - ✅ Picture, Name, Class & Subject  
- - **Top Bar**
-   - ✅ Profile  
-   - ✅ Request histry (Filter by pending requests, rejected requestes)  
-   - ✅ Notifications  
- - **Tution process by teacher**
-   - ✅ Start tution (No more request acceptable)  
-   - ✅ Minutes counting   
-   - ✅ Finish tution (bill depends on per minute count)  
-   - ✅ Mark as paid (Student can not send request until they pay their dues)  
-   - ✅ Give feedback  
+Starts the backend with Nodemon.
 
-  - **Modification-1**
-    - ✅ Making class and subjects without reload the admin dashboard page (To make relationship it needs id of subject and classtype)  
-    - ✅ User should not regester twice  
-    - ✅ User will have different education level  
-    - ✅ Multiple class and subjects of a teacher  
-    - ✅ Start imiddeate action after start class, accept, reject, finish class, review etc  
-    - ✅ select default subject and class of teacher if search has none of it  
-    - ✅ select item background in Calender  
-    - ✅ All class are online for now. Fix in server initiate class  
-    - ✅ Show slot time  
-  
-  - **Modification-2**
-    - ✅ Make google place api work  
-    - ✅ Make navbar smaller  
-    - ✅ No scrolling for searching teacher  
-    - ✅ Search button on the right  
-    - ✅ Logout button doesn't work on production  
-    - ✅ Option for selecting multiple option for tution location - online, tl, sl  
+### Production
 
-  - **Modification-3**
-    - ✅ No tution fee for student - Available status is not changing on production  
-    - ✅ Show role on top bar  
-    - ✅ Need to work with Calender - Select current date, add 7 days, work next and previous   
-    - ✅ Align time slot  
-    - ✅ Add profile picture   
-    - ✅ Add address in order to initialize scheduled class   
-    - ✅ Notification bar  
-    - Make More responsive
-    - ✅ Approve button on detail page of scheduled class  
+```bash
+npm start
+```
 
+Starts the backend using the production environment.
 
- - **Requirement-1**
- - ✅ Work with review 
- - Generate link for scheduled class that is online only
- - Send notification for new requests via phone or mobile browser
- - Teacher per hour rate need to update (client's dashboard input fields) 
- - ✅ Send request with current time of client to initialize scheduled class 
- - ✅ List of requested students 
- - ✅ Validate with express validator in every page 
- - ✅ Add user types (ONLINE, TL(Student's Location), SL(Student's Location), ANY) 
- - ✅ Add users online, TL, SL 
- - ✅ Add hourly fees if he is teacher 
- - ✅ Student teacher relationship for send request 
- - ✅ Remove from signup - subjects, classes 
- - ✅ Create or seed some random user 
- - ✅ Profession 
- - ✅ Make sign out 
- - ✅ Create tables of classes, subjects 
- - ✅ Setup eslint for server 
- - google place api for location search
- - ✅ 1 hour session 
- - ✅ Search teachers 
- - ✅ Search category 1, online 2, offline 3, home 
- - Search by Location - google place api 
- - ✅ Remove teacher/student from login page 
- - User to feedback (many to many relationship) 
- 
- - **Requirement update-3**
- - No preffered class, subjects, and tuition place
- - Different page or section for signup as student and reacher
+### Database Migration
 
- - User should not be able to register with same phone twice
- - Confused - 16
- - ✅ Fixing menu 
- - ✅ phone change cc - Phone country code 
- - teacher type - arabic, bangla, english in the search
- - Location api for user location in regestration,
- - Set profession by default the role
- - ✅ send id and password 
- - ✅ We should keep 2 step for regestration  
- - ✅ No age, profesion, cgpa  
- - ✅ passing year, Currently studying option  
- - Send message on first attempt
- - Check all functions of update
- - add educational qualifications not working at the time of registration
- - Reset password
- 
- - **Requirement update-4**
- - ✅ OTP is not sending properly (register) -> use full code inside router callback (not from sendsms)
- - ✅ No tabs for classes and account (register)
- - ✅ Add profession and institution (register)
- - ✅ if anyone check on currently studying passing year will be disable (register)
- - ✅ Degree / education -> height education (register)
- - ✅ Search functions need to work
- - Frontend no result on search
- - Tuition style (Online, teacher's location, student's location)
- - Login redict to login page again on production
- - Rates for different subjects
+```bash
+npm run migrate
+```
 
- - **Requirement update-5**
- - [Page change loading](https://stackoverflow.com/questions/55624695/loading-screen-on-next-js-page-transition)
- - ✅ Add rate for teacher - calculate monthly rate
- - ✅ Profession will be student, Full Name, Email, Medium, Class, Institution, Location
- - ✅ No rate,  subject, for students
- - ✅ dashboard -> update user - no any medium
- - Rivisions
- - Change favicon.ico 
- - ✅ Custom 404 page
- - A function should run in every hour to delete unverified users - setInterval
- - ✅ Image optimizations - https://nextjs.org/docs/basic-features/image-optimization - test with lighthouse private window
- - ✅ Next.js -> start loading in one page(e.g. login) turn off loading from another page(e.g. dasboard page). if request fails then turn off loading
- - ✅ (*no need for our project*)improve the initial loading performance https://nextjs.org/docs/advanced-features/dynamic-import
- - [Deployment guide](https://docs.digitalocean.com/tutorials/app-nextjs-deploy/), [Static HTML Export](https://nextjs.org/docs/advanced-features/static-html-export)
- - Show properly one by one Medium -> classes -> subjects (required field - hide when it unchecked)
- - no education, no tution detail, prefered subject and classes detail for student,
- - ✅ No gmail login
- - Google place api error
- - ✅ highest education
- - ✅ Modal calculating tuition fee
- - Style improvement in tuition style - online / teacher's location / student's location in registration page
- - ✅ rate for tuition style -> different rates for student's location teacher's location and online
- - ✅ www.ponditi.com add in message
- - ✅ Exam detail form - list all exam on component mount
- - ✅ Add education freely
- - ✅ Experience below the name - dashboard page
- - Update tuition detail rates for diffrent tuition stule
- - Search result display properly with diffrent rate
- - 1. Personal detail and tuition detail to be in one section and at top
- - 2. end section preffered subject
- - 3. 3rd section education detail
- - server - TL_SL_TL_SL
- - Should remove all educational detail from user model and keep it clean with education model relationship
- - Update medium is not working
- - Scheduled class and search request page need to modify used id as query parameters
+### Undo Latest Migration
 
- - **Requirement update-6**
- - ✅ Search component design change in home page
- - Add message after register(not working)
- - ✅ Exam title, major, institution, board, passing year - cerrently runnning
- - No subject edit in student dashboard
- - Medium in place of group after exam title
- - Medium class below student
- - ✅ District - list - 
- - ✅ Add education freely (not working)
- - No board from education model backend and database
- - ✅ Show any field between running study and passing year
- - Search teacher design change
- - ✅ Make header smaller
- - ✅ make a refereance field for regestration
- - ✅ make sure updating education is working
- - ✅ Solve frontend hosting issue
- - ✅ Password vul dile code dekhai
- - ✅ Send verification code instead of otp
- - Check used class and subject is properly selecting or not
- - Problems adding tuition medium
+```bash
+npm run migrate:undo
+```
 
- - **Requirement update-7**
- - Profile pic show korena
- - Personal Details e District name capital letter e ashena
- - Tuition rate edit kora jacchena
- - Education sector e institution er naam set korar por o show korena
+### Seed Database
 
- - **Requirement update-8**
- - Change calculator style for mobile
- - Create a sub domain
- - ✅ Remove these two lines from Registration page and change the button name to Submit
- - ✅ Change “Phone Number” to “Continue with Mobile No”
- - ✅ Remove the line and keep single line like the following pic
- - ✅ Remove the social media icons from here and add it in the right bottom side of foother
- - ✅ Change the verification message to “Your Ponditi verification code is : 784547”.
- - ✅ Align the Profile name and title in the middle and set the profile pic below them
- - Edit button in the personal Information section will take to the exact same interface where the teacher was registered
- - ✅ Change the profile pic frame to round and keep a camera icon as upload button in the top right side
- - ✅ Upload button in the profile pic with directly ask to select the pic from the device, Mobile phone will open the gallery directly
- - ✅ Remove the icon in the title and keep the title closer to the profile name
- - ✅ Remove the line from address
- - ✅ Keep the profile setting in the top right side of the navbar with profile name like the below pic and add Edit profile, Request history, change password & Logout options in the dropdown (See the pic below)
- - ✅ Keep the color to white removing ash color (No 1) and make the details bold(No 2)
- - ✅ No cancel button works in edit section
- - ✅ Keep all the checkboxes in the left side not in the right side
- - ✅ Add email address in the middle of the footer “infor@ponditibd.com”
+```bash
+npm run seeder
+```
 
+### Generate Swagger Documentation
 
- - **Requirement update-9**
- - ✅ For student update only 1 medium and 1 class
- - ✅ Home text change
- - ✅ Change user table name
- - ✅ Admin - reject button is not working
- - ✅ Update mudium, class, subject is not working properly
+```bash
+npm run swagger-autogen
+```
 
- - **Requirement update-10**
- - ✅ Can not send message to all browser in the room
- - ✅ 150px card
- - ✅ bold tk
- - ✅ top bar shadow in detail
- - ✅ Available Status not in search detail page
- - ✅ send request and chat button
- - ✅ Chat page
- - ✅ Prebook slot disabled
- - ✅ Description to notes
- - ✅ no hourly rate
- - ✅ Notifications on menu need to resize and align properly (from teacher's)
- - ✅ send request from chat
- - ✅ no any option in search with class, medium, subject
- - ✅ Booked slot will be disabled
- - ✅ No professional institution for student
- - ✅ NCheck current date is greater than previously saved date
- - ✅ Nlocation of student can be edited edit
- - ✅ Complete button only
- - ✅ add gender and nid card field
- - ✅ Profile page, on off in jamal
- - fix chat time on sending sms
- - Notification sms on phone (Accept, share link)
- - Disable slot is not working
- - Not getting right notigication message
- - SMS Unseen ribbon
- - Chat is not working properly
- - AI Detects mobile number and social media links
- - A teacher can block a student or a student can block a teacher
- - delete useless images from AWS
- - duplicate database and keep backup in excel file
- - Search button
+---
 
+# Frontend Scripts
 
-### Sequelize problems
- - Notification and education need to migrate properly with user when we add a new field to user
- - Setup sequelize from scretch - association and migrations
+```bash
+npm run dev
+npm run build
+npm start
+npm run lint
+npm run update
+```
 
-Ask questions
+### Development
 
-### Advancing
- - [Update next js 13](https://www.youtube.com/watch?v=6aP9nyTcd44)
- - Microservices
- - Dockerizing
- - Using sequelize cli properly to migrate, and undo with associations
- - Testing
+```bash
+npm run dev
+```
 
+### Production Build
 
+```bash
+npm run build
+```
 
+### Production Server
 
-### Deployment process(server)
-- Disable add admin route and seed route from admin router and get all users from user route
-- make `npm start` script in package.json for **heroku** deployment
-- Remove `dotenv` requirement from server.js for **heroku** deployment
+```bash
+npm start
+```
 
-### Deployment on cpanel
- - Cpanel - domain -> Create a subdomain -> document root -> click on the file location
- - Upload the code 
- - Software -> setup nodejs app
- - Application root will be the domain -> set application start up file
- - Install npm packages and start app
- - 
+### Lint
 
+```bash
+npm run lint
+```
 
-### MsSQL queries
- - Delete all rows
- ```
- truncate table TableName
- ```
+---
 
- - Foreign key check
- ```
- SET foreign_key_checks = 0;
- SET foreign_key_checks = 1;
- ```
- - We can drop foreign key if we want to and delete a column
- ```
- // This will show an error if it has an foreign key and will show foreign key name as well
- ALTER TABLE Room DROP COLUMN userId;
- // Drop foreign key
- ALTER TABLE Room DROP FOREIGN KEY Room_userId_foreign_idx;
- // Again drop the column
- ALTER TABLE Room DROP COLUMN userId;
- ```
- - Migrations with mssql for specific file
- ```
- npx sequelize-cli db:migrate:undo:all --to 20220215110049-migration-skeleton.js --url 'mssql://sa:Test1234@localhost/ponditi_db'
- npx sequelize-cli db:migrate --url 'mssql://sa:Test1234@localhost/ponditi_db'
- ```
- - Migration assosiations
-  - [Migrations, many-to-many relationships](https://fullstackopen.com/en/part13/migrations_many_to_many_relationships#many-to-many-relationships)
-  - [How to define Sequelize associations using migrations](https://medium.com/@andrewoons/how-to-define-sequelize-associations-using-migrations-de4333bf75a7)
-### Challenges
- - [Cross domain cookie](https://stackoverflow.com/questions/3342140/cross-domain-cookies/74231202#74231202)
+# Database
+
+The backend uses Sequelize as its ORM.
+
+Database-related code is organized into:
+
+```text
+server/
+├── config/
+├── database/
+├── migrations/
+├── models/
+└── seeders/
+```
+
+## Migrations
+
+Database schema changes should be handled through Sequelize migrations rather than manually modifying production databases.
+
+Create a migration using Sequelize CLI:
+
+```bash
+npx sequelize-cli migration:generate --name migration-name
+```
+
+Run migrations:
+
+```bash
+npm run migrate
+```
+
+Undo the latest migration:
+
+```bash
+npm run migrate:undo
+```
+
+## Seeders
+
+Development data can be generated using Sequelize seeders.
+
+```bash
+npm run seeder
+```
+
+---
+
+# Authentication
+
+The application uses token-based authentication with JWT.
+
+Authentication is combined with HTTP cookies to maintain authenticated sessions between the frontend and backend.
+
+The application distinguishes between different user roles, including:
+
+* Learner
+* Teacher
+* Admin
+
+Authorization is applied according to the user's role and permissions.
+
+---
+
+# Real-Time Communication
+
+Ponditi uses Socket.IO for real-time communication.
+
+The real-time layer is responsible for features such as:
+
+* Chat rooms
+* User-to-user messaging
+* Message delivery
+* Notifications
+* Tuition-related communication
+* Real-time state changes
+
+The socket implementation is located under:
+
+```text
+server/socket/
+```
+
+---
+
+# File and Image Management
+
+User profile images and other uploaded files are handled through the backend.
+
+The project uses:
+
+* Multer for multipart file handling
+* Sharp for image processing and optimization
+* AWS S3 for object storage
+
+Profile images should be compressed and optimized before being stored.
+
+---
+
+# API Documentation
+
+The backend uses Swagger for API documentation.
+
+Swagger configuration is located in:
+
+```text
+server/swagger.js
+```
+
+The generated API specification is maintained in:
+
+```text
+server/swagger-output.json
+```
+
+After modifying API documentation annotations, regenerate the Swagger specification:
+
+```bash
+npm run swagger-autogen
+```
+
+---
+
+# Validation
+
+Request validation is handled using `express-validator`.
+
+Validation should be applied at API boundaries to ensure that:
+
+* Required fields are present
+* Input types are correct
+* User-provided data follows expected formats
+* Invalid requests are rejected consistently
+
+---
+
+# Testing
+
+Testing is part of the project's development workflow.
+
+The project should maintain tests for critical application behavior, particularly:
+
+* Authentication
+* User registration
+* User verification
+* Tuition requests
+* Scheduling
+* Tuition lifecycle
+* Payments
+* Notifications
+* Chat
+* Authorization
+* Database operations
+
+Tests should be added alongside new functionality rather than being postponed until the end of development.
+
+---
+
+# Code Quality
+
+The project uses ESLint and Prettier to maintain consistent code quality and formatting.
+
+Run the frontend linter:
+
+```bash
+cd client
+npm run lint
+```
+
+Backend linting can be run using the project's ESLint configuration.
+
+General development principles:
+
+* Keep functions focused and small
+* Validate external input
+* Avoid duplicated business logic
+* Keep controllers thin
+* Keep database operations inside appropriate data-access/model layers
+* Use meaningful names
+* Handle errors consistently
+* Avoid committing secrets
+* Prefer migrations over manual production schema changes
+* Add tests for critical business logic
+
+---
+
+# Docker
+
+The repository includes Docker configuration for containerized deployment.
+
+Available files:
+
+```text
+Dockerfile
+Dockerfile.dev
+docker-compose.yml
+docker-compose.dev.yml
+```
+
+Docker Compose can be used to run the required services together.
+
+Start the production-style stack:
+
+```bash
+docker compose up --build
+```
+
+For development:
+
+```bash
+docker compose -f docker-compose.dev.yml up --build
+```
+
+> The exact Docker configuration may depend on the selected database and deployment environment.
+
+---
+
+# Nginx
+
+Nginx is included as a reverse proxy layer.
+
+```text
+nginx/
+```
+
+A typical production architecture is:
+
+```text
+                    Internet
+                       │
+                       ▼
+                    Nginx
+                       │
+             ┌─────────┴─────────┐
+             ▼                   ▼
+        Next.js               Express
+        Frontend               Backend
+                                  │
+                        ┌─────────┴─────────┐
+                        ▼                   ▼
+                    Database              AWS S3
+```
+
+---
+
+# Deployment
+
+The project contains deployment-related scripts and configuration for server environments.
+
+Relevant files include:
+
+```text
+deploy.sh
+server/auto-deploy.sh
+docker-compose.yml
+nginx/
+.github/
+```
+
+Production deployments should ensure that:
+
+* Development/admin seed routes are disabled
+* Production environment variables are configured securely
+* Database migrations are executed safely
+* Debug/development settings are disabled
+* Nginx is configured as required
+* HTTPS is enabled
+* Sensitive files are excluded from version control
+* Logs and application errors are monitored
+
+---
+
+# Security Considerations
+
+Before deploying to production:
+
+* Use strong JWT secrets
+* Never expose database credentials
+* Never commit `.env` files
+* Never commit AWS credentials
+* Use HTTPS
+* Configure secure cookies
+* Configure appropriate CORS policies
+* Validate all external input
+* Apply authorization checks to protected endpoints
+* Rate-limit sensitive endpoints
+* Restrict administrative functionality
+* Keep dependencies updated
+* Remove development-only routes and seed endpoints
+* Store uploaded files securely
+
+---
+
+# Project Development History
+
+The project has evolved through several development phases, including:
+
+* User registration and verification
+* Teacher and learner profiles
+* Educational qualification management
+* Teacher search
+* Tuition requests
+* Tuition scheduling
+* Tuition location management
+* Real-time chat
+* Notifications
+* Reviews and feedback
+* Profile image management
+* Google Maps / location integration
+* AWS image storage
+* Database migrations
+* Dockerization
+* Production deployment
+* API documentation
+* Validation
+* Testing
+
+Historical implementation notes and database experiments are intentionally kept out of the main README to keep the documentation focused and maintainable.
+
+---
+
+# Roadmap
+
+Planned improvements include:
+
+* [ ] Expand automated test coverage
+* [ ] Improve frontend responsiveness
+* [ ] Improve search and filtering
+* [ ] Improve notification delivery
+* [ ] Add browser/mobile push notifications
+* [ ] Improve tuition payment workflow
+* [ ] Improve real-time chat reliability
+* [ ] Add stronger rate limiting
+* [ ] Improve monitoring and logging
+* [ ] Improve image optimization
+* [ ] Improve database migration workflow
+* [ ] Improve Docker development environment
+* [ ] Improve CI/CD pipeline
+* [ ] Add comprehensive API integration tests
+* [ ] Evaluate service boundaries for future microservice extraction
+
+---
+
+# References
+
+### Next.js
+
+* [Next.js Documentation](https://nextjs.org/docs)
+
+### TypeScript
+
+* [TypeScript Documentation](https://www.typescriptlang.org/docs/)
+
+### Socket.IO
+
+* [Socket.IO Documentation](https://socket.io/docs/v4/)
+
+### Redux Toolkit
+
+* [Redux Toolkit Documentation](https://redux-toolkit.js.org/)
+
+### Sequelize
+
+* [Sequelize Documentation](https://sequelize.org/docs/v6/)
+
+### ESLint
+
+* [ESLint Documentation](https://eslint.org/docs/latest/)
+
+### Next.js Image Optimization
+
+* [Next.js Image Documentation](https://nextjs.org/docs/app/getting-started/images)
+
+### Google Maps
+
+* [Google Maps Platform Documentation](https://developers.google.com/maps)
 
 ### Docker
- - [Dockerize Your Full-Stack App](https://www.youtube.com/watch?v=Jo5TVUBjbIs), [Dockerizing Full Stack Web App REACTJS & NODEJS](https://www.youtube.com/watch?v=IDVUy34vlSE)
 
+* [Docker Documentation](https://docs.docker.com/)
 
-### Track
- - We must make all the tracking of database changes
+---
 
- - ✅ *Add ref in User and remove board from Education*
- - ✅ *Add institution in User* - `ALTER TABLE User ADD institution VARCHAR(255);` alternate `ALTER TABLE dbo.[User] ADD institution VARCHAR(255);`
- - ✅ *Change table name*
-    ```
-    // Change table names
-    EXEC sp_rename 'User', 'Customer';
-    EXEC sp_rename 'UserToClasstype', 'CustomerToClasstype';
-    EXEC sp_rename 'UserToSubject', 'CustomerToSubject';
-    EXEC sp_rename 'UniqueUserTuitionm', 'UniqueCustomerTuitionm';
-    EXEC sp_rename 'UserToTuitionm', 'CustomerToTuitionm';
+# Related Project
 
-    // Change column name for many to many relation ship
-    EXEC sp_RENAME 'CustomerToClasstype.UserId' , 'CustomerId', 'COLUMN';
-    EXEC sp_RENAME 'CustomerToSubject.UserId' , 'CustomerId', 'COLUMN';
-    EXEC sp_RENAME 'UniqueCustomerTuitionm.UserId' , 'CustomerId', 'COLUMN';
+Ponditi is an online tuition platform focused on making teacher discovery, tuition management, communication, and scheduling easier for learners and teachers.
 
-    // Change column name one to many
-    EXEC sp_RENAME 'Education.UserId' , 'CustomerId', 'COLUMN';
-    EXEC sp_RENAME 'Notification.UserId' , 'CustomerId', 'COLUMN';
-    EXEC sp_RENAME 'CustomerToTuitionm.UserId' , 'CustomerId', 'COLUMN';
-    ```
- - *Create Room with relation of customer multiple times*
-    ```
-    CREATE TABLE Room (
-      id INT PRIMARY KEY AUTO_INCREMENT,
-      name VARCHAR(20) NOT NULL,
-      status VARCHAR(20) NOT NULL,
-      createdAt DATETIME NOT NULL,
-      updatedAt DATETIME NOT NULL,
-      invitorId INT ,
-      FOREIGN KEY(invitorId) REFERENCES Customer(id),
-      invitereceverId INT,
-      FOREIGN KEY (invitereceverId) REFERENCES Customer(id)      
-    );
-    ```    
+**Project:** Ponditi LMS
+**Architecture:** Full-stack web application
+**Frontend:** Next.js + React + TypeScript
+**Backend:** Node.js + Express + Sequelize
+**Real-time:** Socket.IO
+**Storage:** AWS S3
+**Deployment:** Docker / Nginx / Cloud infrastructure
 
-- *Create Message ane make relation of customer multiple times and relation with room*
-  ```
-  CREATE TABLE Message (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    text VARCHAR(255) NOT NULL,
-    publish BOOLEAN NOT NULL DEFAULT false,
-    createdAt DATETIME NOT NULL,
-    updatedAt DATETIME NOT NULL,
-    messagesenderId INT ,
-    FOREIGN KEY(messagesenderId) REFERENCES Customer(id),
-    messagereceverId INT,
-    FOREIGN KEY (messagereceverId) REFERENCES Customer(id)   ,
-    RoomId INT,
-    FOREIGN KEY (RoomId) REFERENCES Room(id) 
-  );
-  ```
- - *Add gender and NID card*
- ```
- ALTER TABLE Customer ADD COLUMN gender VARCHAR(15) NOT NULL SET DEFAULT 'MALE';
- ALTER TABLE Customer ADD COLUMN id_proof VARCHAR(100);
- ```
- - *Add notification room table*
-  ```
-  CREATE TABLE Notroom(
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(20) NOT NULL,
-    status VARCHAR(20) NOT NULL DEFAULT 'RUNNING',
-    createdAt DATETIME NOT NULL,
-    updatedAt DATETIME NOT NULL,
-    notroominvitorId INT,
-    FOREIGN KEY (notroominvitorId) REFERENCES Customer(id),
-    invitereceiverId INT,
-    FOREIGN KEY (invitereceiverId) REFERENCES Customer(id)
-  );
-  ```
+---
 
+## License
 
+This project is currently maintained as a private/proprietary project.
 
-
-
-
-
-
+Copyright © Ponditi. All rights reserved.

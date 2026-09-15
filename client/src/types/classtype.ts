@@ -9,3 +9,7 @@ export interface IClassType {
     Tuitionms?: ITuitionm[];
     Subjects?: ISubject[];
 }
+
+export interface IClassTypesResponse {
+    classTypes: IClassType[];
+}

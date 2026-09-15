@@ -79,3 +79,12 @@ export interface IResponseData {
     subjects: ISubject[];
     tuitionms: ITuitionm[];
 }
+
+export interface IFeatureItem {
+    icon: React.ReactElement;
+    title: string;
+    description: string;
+  }
+  
+
+export type TStyle = Record<string, string>;
