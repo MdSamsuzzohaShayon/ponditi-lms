@@ -23,6 +23,7 @@ const tuitionmRoutes = require('./routes/tuitionmRouter');
 const messageRoutes = require('./routes/messageRouter');
 // eslint-disable-next-line no-unused-vars
 const db = require('./models');
+const createAdmin = require('./bootstrap/createAdmin');
 const socketRoutes = require('./socket/socketRoutes');
 
 const app = express();
@@ -81,9 +82,16 @@ io.on('connection', socketRoutes);
 
 const PORT = process.env.PORT || 9000;
 
-httpServer.listen(PORT, () => {
-  console.log(`Server is running on ${PORT}`);
-});
+// Ensure the configured admin exists before the server starts accepting traffic
+createAdmin()
+  .catch((err) => {
+    console.error('Admin bootstrap failed:', err && err.message ? err.message : err);
+  })
+  .finally(() => {
+    httpServer.listen(PORT, () => {
+      console.log(`Server is running on ${PORT}`);
+    });
+  });
 
 /*
 if (process.env.FORCE_DB_SYNC === 'true') {

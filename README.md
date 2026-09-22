@@ -62,7 +62,7 @@ The project is built as a full-stack TypeScript/JavaScript application with a Ne
 * Ability to initiate communication during the tuition workflow
 
 ### Tuition Management
-
+a
 The tuition workflow supports:
 
 ```text

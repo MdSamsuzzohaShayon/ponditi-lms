@@ -10,6 +10,8 @@ import { toggleAuthUser } from '@/redux/reducers/userReducer';
 import axios from '@/config/axios';
 import MessageList from '@/components/elements/MessageList';
 import Loader from '@/components/elements/Loader';
+import DotsGrid from '@/components/svg/DotsGrid';
+import CircleRing from '@/components/svg/CircleRing';
 import styles from '@/styles/AdminLogin.module.scss';
 
 function AdminLoginPage() {
@@ -103,10 +105,12 @@ function AdminLoginPage() {
   return (
     <main>
       <section className={`py-5 ${styles.hero}`}>
-        {/* Decorative blobs - EXACT same as MainPage */}
-        <span className={styles.blob1} aria-hidden="true" />
-        <span className={styles.blob2} aria-hidden="true" />
-        <span className={styles.gridOverlay} aria-hidden="true" />
+        {/* Ambient orbs - matching landing page */}
+        <span className={styles.ambientOrb1} aria-hidden="true" />
+        <span className={styles.ambientOrb2} aria-hidden="true" />
+        {/* Floating SVG accents - reusing components/svg shapes */}
+        <div className={`${styles.deco} ${styles.decoDots}`} aria-hidden="true"><DotsGrid color="#4A3D8F" cols={5} rows={5} /></div>
+        <div className={`${styles.deco} ${styles.decoRing}`} aria-hidden="true"><CircleRing size={80} color="#3EC878" strokeWidth={2} /></div>
 
         <div className="container position-relative">
           <div className="row align-items-center g-5 min-vh-100">

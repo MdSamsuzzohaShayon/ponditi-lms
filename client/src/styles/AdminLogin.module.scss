@@ -1,100 +1,129 @@
 @use './abstracts/variables' as *;
-@use './abstracts/mixins' as *;
-@use 'sass:color';
+@use './abstracts/keyframes' as *;
 
-// ══════════════════════════════════════════════
-//  HERO SECTION - EXACT same as MainPage
-// ══════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+//  ADMIN LOGIN · AdminLogin.module.scss
+//  Restyled to match landing page design language
+//  (see docs/ponditi-client-ui-analysis.md)
+// ═══════════════════════════════════════════════
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Cabinet+Grotesk:wght@400;500;700;800&display=swap');
+
+// ── Page background (landing hero gradient) ──
 .hero {
   position: relative;
   min-height: calc(100vh - 70px);
-  @include navyGradient;
   overflow: hidden;
   display: flex;
   align-items: center;
-  font-family: $font-body;
-  padding-top: 4rem !important;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  padding-top: 5rem !important;
   padding-bottom: 5rem !important;
+  background: linear-gradient(145deg, #F0ECFF 0%, #F7F5FF 40%, #EAF9F1 100%);
 }
 
-// Decorative background elements - EXACT same
-.blob1,
-.blob2 {
+// Ambient orbs (matching landing page)
+.ambientOrb1 {
   position: absolute;
-  border-radius: $radius-circle;
-  pointer-events: none;
-}
-
-.blob1 {
   width: 560px;
   height: 560px;
-  top: -180px;
-  right: -120px;
-  @include radialRedGradient;
-  animation: pulse 8s ease-in-out infinite alternate;
-}
-
-.blob2 {
-  width: 400px;
-  height: 400px;
-  bottom: -100px;
-  left: -80px;
-  @include radialNavyGradient;
-  animation: pulse 10s ease-in-out infinite alternate-reverse;
-}
-
-.gridOverlay {
-  @include absolute-fill;
-  @include grid-overlay(rgba($white, 0.03), 48px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(74, 61, 143, 0.12) 0%, transparent 70%);
+  top: -120px;
+  left: -140px;
   pointer-events: none;
+  animation: orbFloat 12s ease-in-out infinite;
+  z-index: 0;
 }
 
-// ── Badge - EXACT same ──
+.ambientOrb2 {
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(62, 200, 120, 0.1) 0%, transparent 70%);
+  bottom: -100px;
+  right: -90px;
+  pointer-events: none;
+  animation: orbFloat2 15s ease-in-out infinite;
+  z-index: 0;
+}
+
+// Floating SVG accents (reusing components/svg shapes)
+.deco {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.decoDots {
+  top: 12%;
+  right: 6%;
+  animation: fadeIn 1s ease both;
+}
+
+.decoRing {
+  top: 18%;
+  left: 54%;
+  animation: ringExpand 0.8s ease both, spinSlow 20s 1s linear infinite;
+}
+
+// ── Eyebrow badge (landing .sectionBadge recipe) ──
 .badge {
-  @include badge;
-  margin-bottom: 1.25rem;
-  animation: fadeUp $transition-slowest ease both;
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: $green;
+  background: $green-pale;
+  padding: 5px 15px;
+  border-radius: 30px;
+  margin-bottom: 18px;
+  animation: fadeUp 0.6s ease both;
 }
 
-// ── Headline - EXACT same ──
+// ── Headline (Playfair + gradient word) ──
 .headline {
-  @include headline;
-  margin-bottom: 1.1rem;
-  animation: fadeUp $transition-slowest 0.1s ease both;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  color: $dark;
+  margin-bottom: 20px;
+  animation: fadeUp 0.6s 0.1s ease both;
 }
 
 .highlight {
-  position: relative;
-  color: $red-light;
-
-  &::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 2px;
-    width: 100%;
-    height: 3px;
-    @include redGradient;
-    border-radius: 2px;
-  }
+  background: linear-gradient(135deg, $purple, $green);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmerText 4s linear infinite;
 }
 
-// ── Subtext - EXACT same ──
+// ── Subtext ──
 .subtext {
-  @include subtext;
+  font-size: 1rem;
+  color: $mid;
+  line-height: 1.7;
   max-width: 440px;
   margin-bottom: 2rem;
-  animation: fadeUp $transition-slowest 0.2s ease both;
+  animation: fadeUp 0.6s 0.2s ease both;
 }
 
-// ── Login Card - EXACT same as searchCard ──
+// ── Login card (landing white-card recipe) ──
 .loginCard {
-  @include glass-card;
-  padding: 2rem;
-  animation: fadeUp $transition-slowest 0.3s ease both;
-  border: 1px solid rgba($red, 0.2);
   position: relative;
+  background: white;
+  border-radius: 24px;
+  border: 1.5px solid rgba(74, 61, 143, 0.06);
+  box-shadow: 0 20px 70px rgba(74, 61, 143, 0.14), 0 4px 16px rgba(74, 61, 143, 0.06);
+  padding: 2rem;
   overflow: hidden;
+  animation: fadeUp 0.6s 0.3s ease both;
 
   &::before {
     content: '';
@@ -103,104 +132,175 @@
     left: 0;
     right: 0;
     height: 4px;
-    @include redGradient;
+    background: linear-gradient(to right, $green, $purple);
   }
 }
 
 .cardHeader {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 14px;
   margin-bottom: 1.5rem;
 }
 
+// Icon tile (landing .featureIcon recipe)
 .adminIcon {
-  font-size: 2rem;
-  background: rgba($red, 0.1);
   width: 50px;
   height: 50px;
+  border-radius: 12px;
+  background: $purple-pale;
+  color: $purple;
+  font-size: 1.4rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: $radius-circle;
-  animation: pulse 2s infinite;
+  flex-shrink: 0;
 }
 
 .cardTitle {
-  font-family: $font-display;
-  font-size: 1.5rem;
-  font-weight: $weight-bold;
-  color: $white;
-  letter-spacing: -0.01em;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: $dark;
+  letter-spacing: -0.3px;
+  margin: 0;
 }
 
-// ── Form Elements - EXACT same as MainPage ──
+// ── Form elements ──
+// Micro label with gradient bar (landing .filterLabel recipe)
 .label {
-  @include label;
-  margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 10px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: $mid;
+  margin-bottom: 10px;
+
+  &::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 3px;
+    background: linear-gradient(to right, $green, $purple);
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
 }
 
 .input {
-  @include input-base;
+  width: 100%;
+  background: $light !important;
+  border: 1.5px solid transparent !important;
+  border-radius: 12px !important;
+  padding: 11px 14px !important;
+  font-size: 13.5px !important;
+  color: $dark !important;
+  font-family: 'Cabinet Grotesk', sans-serif !important;
+  font-weight: 500 !important;
+  transition: all 0.2s !important;
+
+  &::placeholder {
+    color: rgba(123, 114, 170, 0.6) !important;
+  }
+
+  &:hover {
+    border-color: rgba(74, 61, 143, 0.2) !important;
+    background: white !important;
+  }
+
+  &:focus {
+    outline: none !important;
+    border-color: $purple !important;
+    background: white !important;
+    box-shadow: 0 0 0 3px $purple-pale !important;
+  }
 }
 
 .fieldHint {
-  color: $text-muted;
-  font-size: $font-xs;
-  margin-top: 0.5rem;
+  color: $mid;
+  font-size: 0.75rem;
+  margin-top: 8px;
   font-style: italic;
 }
 
-// ── Security Note ──
+// Info chip (tinted, landing style)
 .securityNote {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  background: rgba($red, 0.05);
-  border-radius: $radius-sm;
-  border: 1px solid rgba($red, 0.2);
+  gap: 10px;
+  padding: 12px 16px;
+  background: $purple-pale;
+  border: 1px solid rgba(74, 61, 143, 0.1);
+  border-radius: 12px;
 
   span {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
   }
 
   p {
-    color: $text-muted;
-    font-size: $font-sm;
+    color: $mid;
+    font-size: 0.9rem;
     margin: 0;
   }
 }
 
-// ── Form Footer ──
+// ── Submit button (landing purple-gradient CTA recipe) ──
 .formFooter {
   display: flex;
   justify-content: flex-end;
 }
 
-
-
 .loginBtn {
-  @include btn-primary;
-  padding: 12px 36px !important;
-  font-size: 1rem !important;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  background: linear-gradient(135deg, $red 0%, color.scale($red, $lightness: -10%) 100%);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, $purple 0%, $purple-light 100%) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 16px !important;
+  padding: 15px 30px !important;
+  font-weight: 800 !important;
+  font-size: 15px !important;
+  letter-spacing: 0.3px;
+  font-family: 'Cabinet Grotesk', sans-serif !important;
+  box-shadow: 0 10px 32px rgba(74, 61, 143, 0.35), 0 2px 8px rgba(74, 61, 143, 0.2);
+  transition: transform 0.25s, box-shadow 0.25s;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, $green, $green-dark);
+    opacity: 0;
+    transition: opacity 0.35s;
+  }
 
   &:hover {
-    background: linear-gradient(135deg, color.scale($red, $lightness: -5%) 0%, color.scale($red, $lightness: -15%) 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 18px 48px rgba(74, 61, 143, 0.45);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  & > * {
+    position: relative;
+    z-index: 1;
   }
 }
 
-// ── Admin Links ──
+// ── Card footer links ──
 .adminLinks {
   margin-top: 1.5rem;
   padding-top: 1.5rem;
-  border-top: 1px solid rgba($white, 0.1);
+  border-top: 1px solid rgba(74, 61, 143, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -209,63 +309,72 @@
 }
 
 .adminLink {
-  color: $text-muted;
-  font-size: $font-sm;
+  color: $mid;
+  font-size: 0.9rem;
   text-decoration: none;
-  transition: all $transition-base;
+  transition: all 0.2s;
 
   &:hover {
-    color: $red-light;
+    color: $purple;
     text-decoration: underline;
   }
 }
 
 .separator {
-  color: $text-muted;
-  font-size: $font-sm;
+  color: $mid;
+  font-size: 0.9rem;
 }
 
-// ── Trust badges - EXACT same ──
+// ── Trust badges (chip recipe) ──
 .trustRow {
-  animation: fadeUp $transition-slowest 0.45s ease both;
+  animation: fadeUp 0.6s 0.45s ease both;
 }
 
 .trustBadge {
-  @include trust-badge;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: $mid;
+  background: white;
+  border: 1.5px solid rgba(74, 61, 143, 0.08);
+  padding: 6px 14px;
+  border-radius: 20px;
+  box-shadow: 0 4px 14px rgba(74, 61, 143, 0.05);
 }
 
-// ── Illustration area - EXACT same ──
+// ── Illustration area (landing float-card recipe) ──
 .illustrationWrap {
   position: relative;
 }
 
 .illustrationCard {
   position: relative;
-  animation: fadeUp $transition-slowest 0.2s ease both;
+  animation: fadeUp 0.6s 0.2s ease both;
 }
 
 .illustration {
   width: 100%;
   max-width: 520px;
-  filter: drop-shadow(0 30px 60px rgba($red, 0.15));
-  @include animation-float;
+  filter: drop-shadow(0 30px 60px rgba(74, 61, 143, 0.15));
+  animation: floatBob 7s ease-in-out infinite;
 }
 
-// Floating info cards - EXACT same style with admin-specific content
 .floatCard {
   position: absolute;
-  @include glass(0.07, 12px);
-  border-radius: $radius-md;
-  padding: 10px 16px;
-  font-size: 0.82rem;
-  font-weight: $weight-medium;
-  color: rgba($white, 0.90);
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 12px 48px rgba(74, 61, 143, 0.16);
+  padding: 12px 18px;
+  border: 1.5px solid rgba(74, 61, 143, 0.06);
   display: flex;
   align-items: center;
   gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: $dark;
   white-space: nowrap;
-  box-shadow: $shadow-lg;
-  border: 1px solid rgba($red, 0.2);
 
   span {
     font-size: 1.1rem;
@@ -275,65 +384,28 @@
 .floatCard1 {
   bottom: 100px;
   left: -30px;
-  animation: floatCard1 7s ease-in-out infinite;
+  animation: floatBob 6s ease-in-out infinite;
 }
 
 .floatCard2 {
   top: 80px;
   right: -10px;
-  animation: floatCard2 7s ease-in-out infinite 1s;
+  animation: floatBobAlt 7s ease-in-out infinite 1s;
 }
 
 .floatCard3 {
   bottom: 200px;
   right: 50px;
-  animation: floatCard3 8s ease-in-out infinite 0.5s;
+  animation: floatBobAlt 6s ease-in-out infinite 0.5s;
 }
 
 .floatCard4 {
   top: 150px;
   left: -20px;
-  animation: floatCard4 9s ease-in-out infinite 0.2s;
+  animation: floatBob 8s ease-in-out infinite;
 }
 
-// ── Animations - EXACT same ──
-@keyframes pulse {
-  from { transform: scale(1) translate(0, 0); }
-  to { transform: scale(1.12) translate(20px, 20px); }
-}
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(22px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes floatCard1 {
-  0%, 100% { transform: translateY(0) rotate(-1deg); }
-  50% { transform: translateY(-10px) rotate(1deg); }
-}
-
-@keyframes floatCard2 {
-  0%, 100% { transform: translateY(0) rotate(1deg); }
-  50% { transform: translateY(-12px) rotate(-1deg); }
-}
-
-@keyframes floatCard3 {
-  0%, 100% { transform: translateY(0) rotate(2deg); }
-  50% { transform: translateY(-8px) rotate(-2deg); }
-}
-
-@keyframes floatCard4 {
-  0%, 100% { transform: translateY(0) rotate(-2deg); }
-  50% { transform: translateY(-15px) rotate(2deg); }
-}
-
-// ── Responsive - EXACT same as MainPage ──
+// ── Responsive ──
 @media (max-width: 992px) {
   .floatCard3,
   .floatCard4 {
@@ -343,32 +415,33 @@
 
 @media (max-width: 768px) {
   .hero {
-    padding: 60px 0;
+    padding: 60px 0 !important;
   }
-  
+
   .loginCard {
     padding: 1.5rem;
   }
-  
+
   .cardHeader {
     flex-direction: column;
     text-align: center;
-    gap: 0.5rem;
+    gap: 10px;
   }
-  
+
   .formFooter {
     justify-content: center;
   }
-  
+
   .loginBtn {
     width: 100%;
+    justify-content: center;
   }
-  
+
   .adminLinks {
     flex-direction: column;
     gap: 0.5rem;
   }
-  
+
   .separator {
     display: none;
   }
