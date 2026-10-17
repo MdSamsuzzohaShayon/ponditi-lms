@@ -68,6 +68,7 @@ const searchTeacher = async (req, res) => {
     */
     // Search by location
     if (searchParams.tutionplace && searchParams.tutionplace !== ANY && searchParams.tutionplace !== '' && searchParams.tutionplace !== '0') {
+      // @ts-ignore
       where.tutionplace = { [Op.like]: `%${searchParams.tutionplace}%` };
     }
 
@@ -84,9 +85,11 @@ const searchTeacher = async (req, res) => {
       }
       include.push({
         model: Tuitionm,
+        // @ts-ignore
         attributes: [],
         require: true,
       });
+      // @ts-ignore
       where = { ...where, '$Tuitionms.id$': newTMArrInt };
     }
 
@@ -105,10 +108,12 @@ const searchTeacher = async (req, res) => {
       }
       include.push({
         model: Subject,
+        // @ts-ignore
         attributes: [],
         require: true,
       });
       // console.log(newSIArrInt);
+      // @ts-ignore
       where = { ...where, '$Subjects.id$': newSIArrInt };
     }
 
@@ -127,9 +132,11 @@ const searchTeacher = async (req, res) => {
       // console.log(newCTIArrInt);
       include.push({
         model: ClassType,
+        // @ts-ignore
         attributes: [],
         require: true,
       });
+      // @ts-ignore
       where = { ...where, '$ClassTypes.id$': newCTIArrInt };
     }
     /*
@@ -138,7 +145,9 @@ const searchTeacher = async (req, res) => {
     /**
      * @search by online offline or home
      */
+    // @ts-ignore
     searchQuery.where = where;
+    // @ts-ignore
     searchQuery.include = include;
     const findTeachers = await Customer.findAll(searchQuery);
 

@@ -6,9 +6,11 @@ const { faker } = require('@faker-js/faker');
 const { roles } = require('../config/keys');
 
 
+
 const { ADMIN, STUDENT, SUPER, TEACHER } = roles;
 
 async function createCustomer(role, passwordHash) {
+  const now = new Date().toISOString();          // single timestamp
   return {
     name: faker.person.fullName(),
     password: passwordHash,
@@ -47,8 +49,8 @@ async function createCustomer(role, passwordHash) {
 
     ref: faker.number.int({ min: 1, max: 10 }),
 
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    createdAt: now,
+    updatedAt: now,
   };
 }
 
@@ -80,6 +82,7 @@ module.exports = {
     ]);
 
     await queryInterface.bulkInsert('Customer', customers);
+    
   },
 
   async down(queryInterface, Sequelize) {

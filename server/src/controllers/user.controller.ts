@@ -161,13 +161,18 @@ const registerUser = async (req, res) => {
     if (newTutionplace !== '') userObj.tutionplace = newTutionplace.toUpperCase();
 
     // Education detail
+    // @ts-ignore
     userExam.level = userObj.degree;
+    // @ts-ignore
     userExam.institution = userObj.institution;
     userObj.institution = userObj.pinstitution;
     if (userObj.running_study === false) {
+      // @ts-ignore
       userExam.passing_year = userObj.passing_year;
     }
+    // @ts-ignore
     userExam.running_study = userObj.running_study;
+    // @ts-ignore
     userExam.major = userObj.major;
   } else {
     userObj.role = STUDENT;
@@ -384,6 +389,7 @@ const login = async (req, res) => {
       expiresIn: '90d',
     });
     res.cookie('token', token, cookieOptions);
+    // @ts-ignore
     userDetailResponse.name = userExist.dataValues.name;
     return res.status(200).json({ msg: 'Logged in successfully', user: userDetailResponse });
   } catch (err) {
@@ -497,7 +503,9 @@ const resetPassword = async (req, res) => {
   }
 
   const updateObj = {};
+  // @ts-ignore
   updateObj.otp = null;
+  // @ts-ignore
   updateObj.password = await bcrypt.hash(req.body.password, 10);
 
   await Customer.update(updateObj, { where: { id: userExist.dataValues.id } }); // isActive

@@ -4,12 +4,14 @@
   "description": "node express crud api with sequelize",
   "main": "server.js",
   "scripts": {
-    "dev": "env NODE_ENV=development nodemon -L server.js",
-    "start": "env NODE_ENV=production node server.js",
+    "build": "tsc && npm run copy:assets",
+    "dev": "env NODE_ENV=development tsx watch src/server.ts",
+    "start": "env NODE_ENV=production node dist/server.js",
+    "copy:assets": "cp src/swagger-output.json dist/",
     "swagger-autogen": "node swagger.js",
     "migrate": "npx sequelize-cli db:migrate",
     "migrate:undo": "npx sequelize-cli db:migrate:undo",
-    "seeder": "npx sequelize-cli db:seed:all --config ./config/config.js",
+    "seed": "npx sequelize-cli db:seed:all --config ./config/config.js",
     "update": "npx npm-check-updates -u"
   },
   "keywords": [
@@ -20,6 +22,7 @@
   "author": "shayon",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^26.6.5",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-node": "^4.1.0",
     "eslint-config-prettier": "^10.1.8",
@@ -28,7 +31,8 @@
     "eslint-plugin-prettier": "^5.5.6",
     "nodemon": "^3.1.14",
     "prettier": "^3.9.6",
-    "sequelize-cli": "^6.6.5"
+    "sequelize-cli": "^6.6.5",
+    "typescript": "^7.0.2"
   },
   "dependencies": {
     "@faker-js/faker": "^10.6.0",

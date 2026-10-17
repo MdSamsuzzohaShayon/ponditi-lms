@@ -4,7 +4,9 @@ const options = {
   // signed: true, // Indicates if the cookie should be signed
 };
 if (process.env.NODE_ENV !== 'development') {
+  // @ts-ignore
   options.sameSite = 'none';
+  // @ts-ignore
   options.secure = true;
 }
 

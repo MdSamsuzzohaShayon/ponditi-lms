@@ -99,6 +99,7 @@ const loginAdmin = async (req, res, next) => {
     });
 
     res.cookie('token', token, cookieOptions);
+    // @ts-ignore
     userDetailResponse.name = userExist.dataValues.name;
     return res.status(200).json({ msg: 'Logged in successfully', user: userDetailResponse });
   } catch (err) {

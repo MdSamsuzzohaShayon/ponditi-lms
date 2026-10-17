@@ -42,7 +42,9 @@ Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) db[modelName].associate(db);
 });
 
+// @ts-ignore
 db.sequelize = sequelize;
+// @ts-ignore
 db.Sequelize = Sequelize;
 
 module.exports = db;

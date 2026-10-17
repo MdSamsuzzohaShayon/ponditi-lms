@@ -1,5 +1,6 @@
 class BaseController {
   constructor(socket) {
+    // @ts-ignore
     this.socket = socket;
   }
 }

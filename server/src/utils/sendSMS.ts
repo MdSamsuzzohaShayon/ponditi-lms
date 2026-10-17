@@ -1,4 +1,5 @@
 /* eslint-disable no-shadow */
+// @ts-ignore
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 // const unirest = require('unirest');
 

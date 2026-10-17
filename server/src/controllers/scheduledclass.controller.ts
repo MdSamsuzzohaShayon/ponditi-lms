@@ -131,6 +131,7 @@ const initiateScheduledClass = async (req, res) => {
     } else {
       const date = new Date(startISODate);
 
+      // @ts-ignore
       if (isNaN(date)) {
         return res.status(406).json({
           msg: 'Invalid Date format',
@@ -146,6 +147,7 @@ const initiateScheduledClass = async (req, res) => {
       tuitionlocation: scObj.tuitionlocation,
     };
     if (scObj.desc) {
+      // @ts-ignore
       scObjToCreate.desc = scObj.desc;
     }
 
@@ -281,8 +283,10 @@ const getAllScheduledClassofAMember = async (req, res) => {
     }
     const where = {};
     if (findUser.dataValues.role === TEACHER) {
+      // @ts-ignore
       where.ReceverId = memberId;
     } else if (findUser.dataValues.role === STUDENT) {
+      // @ts-ignore
       where.SenderId = memberId;
     } else {
       return res.status(404).json({ msg: 'no class found' });
@@ -314,19 +318,23 @@ const getAllScheduledClassofAMember = async (req, res) => {
       // console.log('-------------------------');
       if (newScheduledClass[i].Sender) {
         const { password, otp, cc, ...newSender } = newScheduledClass[i].Sender.dataValues;
+        // @ts-ignore
         singleScheduledClass.Sender = newSender;
         // console.log(newSender);
       }
       if (newScheduledClass[i].Recever) {
         const { password, otp, cc, ...newRecever } = newScheduledClass[i].Recever.dataValues;
+        // @ts-ignore
         singleScheduledClass.Recever = newRecever;
         // console.log(newRecever);
       }
       if (newScheduledClass[i].ClassType) {
+        // @ts-ignore
         singleScheduledClass.ClassType = newScheduledClass[i].ClassType.dataValues;
         // console.log(newClassType);
       }
       if (newScheduledClass[i].Subject) {
+        // @ts-ignore
         singleScheduledClass.Subject = newScheduledClass[i].Subject.dataValues;
         // console.log(newSubject);
       }

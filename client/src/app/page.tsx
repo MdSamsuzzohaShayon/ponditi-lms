@@ -116,6 +116,8 @@ async function fetchHomePageData(): Promise<IResponseData> {
 
 export default async function HomePage(): Promise<React.ReactElement> {
   const homePageData = await fetchHomePageData();
+  console.log({homePageData});
+  
   const { classTypes, subjects, tuitionms } = homePageData;
   return (
     <div className="w-100">
