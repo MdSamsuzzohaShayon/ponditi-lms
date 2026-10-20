@@ -1,5 +1,6 @@
 module.exports = {
-  'config': 'config/mssql-config.js',
-  'migrations-path': 'migrations',
-  'seeders-path': 'seeders'
+  'config': 'src/config/config.ts',
+  'migrations-path': 'src/migrations',
+  'seeders-path': 'src/seeders',
+  'models-path': 'src/models'
 }

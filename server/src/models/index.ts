@@ -30,10 +30,25 @@ const testDatabase = async () => {
 testDatabase();
 
 // Import models
+// fs.readdirSync(__dirname)
+//   .filter(file => file !== basename && file.endsWith('.js') && !file.endsWith('.test.js'))
+//   .forEach(file => {
+//     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+//     db[model.name] = model;
+//   });
+
 fs.readdirSync(__dirname)
-  .filter(file => file !== basename && file.endsWith('.js') && !file.endsWith('.test.js'))
+  .filter(file =>
+    file !== basename &&
+    (file.endsWith('.js') || file.endsWith('.ts')) &&
+    !file.endsWith('.d.ts') &&
+    !file.endsWith('.test.js') &&
+    !file.endsWith('.test.ts')
+  )
   .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+    // Strip extension so require() works in BOTH dev (.ts via tsx) and prod (.js compiled)
+    const baseName = file.replace(/\.(js|ts)$/, '');
+    const model = require(path.join(__dirname, baseName))(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
   });
 

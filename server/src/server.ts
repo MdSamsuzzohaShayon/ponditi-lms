@@ -1,6 +1,6 @@
 const dotenv = require('dotenv');
 
-dotenv.config({ path: './.env' });
+dotenv.config({ path: './.env' });    // ✅
 
 // dotenv.config({ path: './.env' });
 const cookieParser = require('cookie-parser');
@@ -39,6 +39,9 @@ const io = new Server(httpServer, {
     credentials: true,
   },
 });
+
+
+
 
 app.use(cookieParser());
 app.use(cors({ credentials: true, origin: process.env.FRONTEND_URL }));

@@ -9,9 +9,10 @@
     "start": "env NODE_ENV=production node dist/server.js",
     "copy:assets": "cp src/swagger-output.json dist/",
     "swagger-autogen": "node swagger.js",
-    "migrate": "npx sequelize-cli db:migrate",
-    "migrate:undo": "npx sequelize-cli db:migrate:undo",
-    "seed": "npx sequelize-cli db:seed:all --config ./config/config.js",
+    "migrate": "tsx node_modules/.bin/sequelize-cli db:migrate",
+    "migrate:undo": "tsx node_modules/.bin/sequelize-cli db:migrate:undo",
+    "seed": "tsx node_modules/.bin/sequelize-cli db:seed:all",
+    "seed:undo": "tsx node_modules/.bin/sequelize-cli db:seed:undo:all",
     "update": "npx npm-check-updates -u"
   },
   "keywords": [
@@ -32,6 +33,7 @@
     "nodemon": "^3.1.14",
     "prettier": "^3.9.6",
     "sequelize-cli": "^6.6.5",
+    "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   },
   "dependencies": {
